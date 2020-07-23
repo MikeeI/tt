@@ -13,22 +13,15 @@ jobs:
 
     - name : Install ffmpeg
       run: |
-        sudo apt-get update
-        sudo apt-get install ffmpeg
-        ffmpeg --help
-    - name : Download File
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o cut.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12003943/zip"
+        ls -la
+
+    - name : Fix
       run: |
-        wget -O Parasite.mp4 "https://fr4.seedr.cc/ff_get/709823332/Parasite.2019.1080p.BluRay.x264-[YTS.LT].mp4?st=4BIiIPGtA48NGsqkP_EZ7Q&e=1595613939"
-        echo __________________________
+        split -b 1289805700 -d -a 3 cut.zip cut_part
         ls -la
         
-    - name : Cut
-      run: |
-        ffmpeg -i Parasite.mp4 -ss 00:51:00 -c copy -t 01:15:00 cut.mp4
-        echo ___________________________
-        ls -la
     - name : Upload
       uses: actions/upload-artifact@v2
       with:
-        path: cut.mp4
-      
+        path: cut_part001
