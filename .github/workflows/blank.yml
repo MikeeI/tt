@@ -13,12 +13,12 @@ jobs:
 
     - name : Install ffmpeg
       run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o cut.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12003943/zip"
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12003943/zip"
         ls -la
 
     - name : Fix
       run: |
-        split -b 1289805700 -d -a 3 cut.zip cut_part
+        split -b 1289805700 -d -a 3 artifact.zip cut_part
         ls -la
         
     - name : Upload
