@@ -12,16 +12,23 @@ jobs:
     - uses: actions/checkout@v2
 
     - name : Install ffmpeg
-      run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12003943/zip"
+      run: sudo apt-get install ffmpeg
+
+
+    - name : Install 7Zip
+      run: sudo apt-get install 7zip-full
+
+    - name: Download
+      run : |
+        wget -O file.mkv "http://indexof.ir/redirect/809eRJ"
+        
+    - name : Compress
+      run : |
+        ffmpeg -i file.mkv -vcodec libx264 -crf 28 output1.mp4
+        7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on archive1.7z output1.mp4
         ls -la
 
-    - name : Fix
-      run: |
-        split -b 1289803000 -d -a 3 artifact.zip cut_part
-        ls -la
-        
     - name : Upload
       uses: actions/upload-artifact@v2
       with:
-        path: cut_part001
+        path: archive1.7z
