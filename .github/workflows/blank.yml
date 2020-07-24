@@ -23,14 +23,9 @@ jobs:
         sudo apt update
         sudo apt install p7zip-full p7zip-rar
 
-    - name: Install Wget2
-      run : |
-        sudo apt update
-        sudo apt-get install wget2
-        
     - name: Download
       run : |
-        wget2 --max-threads 30 --progress bar -O file.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E01.480p.WEB-DL.Tehmovies.me.mkv"
+        wget-O file.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E02.480p.WEB-DL.Tehmovies.me.mkv"
         
     - name : Compress
       run : |
