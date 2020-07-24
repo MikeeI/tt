@@ -25,7 +25,7 @@ jobs:
 
     - name: Download
       run : |
-        wget -O file.mkv "http://indexof.ir/redirect/809eRJ"
+        wget --tries=20 -O file.mkv "http://indexof.ir/redirect/809eRJ"
         
     - name : Compress
       run : |
