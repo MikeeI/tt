@@ -1,0 +1,59 @@
+name: avidemux
+
+on:
+  push:
+    branches : [ full ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install ffmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install ffmpeg
+
+
+    - name : Install 7Zip
+      run: |
+        sudo add-apt-repository universe
+        sudo apt update
+        sudo apt install p7zip-full p7zip-rar
+
+    - name : Install Axel
+      run: |
+        sudo apt update
+        sudo apt-get install axel
+
+    - name: Download
+      run : |
+        axel -n 128 -o file1.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E01.480p.WEB-DL.Tehmovies.me.mkv"
+        axel -n 128 -o file2.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E02.480p.WEB-DL.Tehmovies.me.mkv"
+        axel -n 128 -o file3.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E03.480p.WEB-DL.Tehmovies.me.mkv"
+        axel -n 128 -o file4.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E04.480p.WEB-DL.Tehmovies.me.mkv"
+        axel -n 128 -o file5.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E05.480p.WEB-DL.Tehmovies.me.mkv"
+        axel -n 128 -o file6.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E06.480p.WEB-DL.Tehmovies.me.mkv"
+        axel -n 128 -o file7.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s1/Silicon.Valley.S01E07.480p.WEB-DL.Tehmovies.me.mkv"
+    
+    - name : Compress
+      run : |
+        ffmpeg -i file1.mkv -vcodec libx265 -crf 28 output1.mp4
+        ffmpeg -i file2.mkv -vcodec libx265 -crf 28 output2.mp4
+        ffmpeg -i file3.mkv -vcodec libx265 -crf 28 output3.mp4
+        ffmpeg -i file4.mkv -vcodec libx265 -crf 28 output4.mp4
+        ffmpeg -i file5.mkv -vcodec libx265 -crf 28 output5.mp4
+        ffmpeg -i file6.mkv -vcodec libx265 -crf 28 output6.mp4
+        ffmpeg -i file7.mkv -vcodec libx265 -crf 28 output7.mp4
+        
+        7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on archive.7z output1.mp4 output2.mp4 output3.mp4 output4.mp4 output5.mp4 output6.mp4 output7.mp4
+        ls -la
+
+    - name : Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: 7z
+        path: archive.7z
