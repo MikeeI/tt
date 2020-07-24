@@ -12,11 +12,16 @@ jobs:
     - uses: actions/checkout@v2
 
     - name : Install ffmpeg
-      run: sudo apt-get install ffmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install ffmpeg
 
 
     - name : Install 7Zip
-      run: sudo apt-get install 7zip-full
+      run: |
+        sudo add-apt-repository universe
+        sudo apt update
+        sudo apt install p7zip-full p7zip-rar
 
     - name: Download
       run : |
@@ -24,7 +29,7 @@ jobs:
         
     - name : Compress
       run : |
-        ffmpeg -i file.mkv -vcodec libx264 -crf 28 output1.mp4
+        ffmpeg -i file.mkv -vcodec libx265 -crf 28 output1.mp4
         7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on archive1.7z output1.mp4
         ls -la
 
