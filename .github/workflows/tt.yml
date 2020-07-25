@@ -29,18 +29,17 @@ jobs:
 
       - name: Download
         run: |
-          axel -n 512 -o file01.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E01.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file02.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E02.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file03.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E03.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file04.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E04.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file05.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E05.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file06.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E06.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file07.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E07.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file08.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E08.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file09.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E09.480p.Tehmovies.me.mkv"
-          axel -n 512 -o file10.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E10.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file01.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E01.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file02.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E02.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file03.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E03.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file04.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E04.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file05.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E05.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file06.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E06.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file07.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E07.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file08.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E08.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file09.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E09.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file10.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E10.480p.Tehmovies.me.mkv"
           
-          ls -la
           
       - name: Compress
         run: |
