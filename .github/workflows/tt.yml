@@ -16,12 +16,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install ffmpeg
 
-      - name: Install 7Zip
-        run: |
-          sudo add-apt-repository universe
-          sudo apt update
-          sudo apt install p7zip-full p7zip-rar
-
       - name: Install Axel
         run: |
           sudo apt update
@@ -29,98 +23,88 @@ jobs:
 
       - name: Download
         run: |
-          axel -n 128 -o file01.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E01.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file02.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E02.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file03.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E03.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file04.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E04.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file05.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E05.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file06.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E06.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file07.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E07.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file08.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E08.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file09.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E09.480p.Tehmovies.me.mkv"
-          axel -n 128 -o file10.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/Silicon.Valley.S02E10.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file01.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e01.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file02.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e02.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file03.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e03.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file04.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e04.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file05.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e05.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file06.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e06.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file07.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e07.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file08.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e08.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file09.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e09.480p.Tehmovies.me.mkv"
+          axel -n 128 -o file10.mkv "http://dl1.tmsv.xyz/94/94/series/Silicon.Valley/s3/silicon.valley.s03e10.proper.480p.Tehmovies.me.mkv"
           
           
       - name: Compress
         run: |
-          ffmpeg -i file01.mkv -vcodec libx265 -crf 28 S02E01.mp4
-          ffmpeg -i file02.mkv -vcodec libx265 -crf 28 S02E02.mp4
-          ffmpeg -i file03.mkv -vcodec libx265 -crf 28 S02E03.mp4
-          ffmpeg -i file04.mkv -vcodec libx265 -crf 28 S02E04.mp4
-          ffmpeg -i file05.mkv -vcodec libx265 -crf 28 S02E05.mp4
-          ffmpeg -i file06.mkv -vcodec libx265 -crf 28 S02E06.mp4
-          ffmpeg -i file07.mkv -vcodec libx265 -crf 28 S02E07.mp4
-          ffmpeg -i file08.mkv -vcodec libx265 -crf 28 S02E08.mp4
-          ffmpeg -i file09.mkv -vcodec libx265 -crf 28 S02E09.mp4
-          ffmpeg -i file10.mkv -vcodec libx265 -crf 28 S02E10.mp4
+          ffmpeg -i file01.mkv -vcodec libx265 -crf 28 S03E01.mp4
+          ffmpeg -i file02.mkv -vcodec libx265 -crf 28 S03E02.mp4
+          ffmpeg -i file03.mkv -vcodec libx265 -crf 28 S03E03.mp4
+          ffmpeg -i file04.mkv -vcodec libx265 -crf 28 S03E04.mp4
+          ffmpeg -i file05.mkv -vcodec libx265 -crf 28 S03E05.mp4
+          ffmpeg -i file06.mkv -vcodec libx265 -crf 28 S03E06.mp4
+          ffmpeg -i file07.mkv -vcodec libx265 -crf 28 S03E07.mp4
+          ffmpeg -i file08.mkv -vcodec libx265 -crf 28 S03E08.mp4
+          ffmpeg -i file09.mkv -vcodec libx265 -crf 28 S03E09.mp4
+          ffmpeg -i file10.mkv -vcodec libx265 -crf 28 S03E10.mp4
 
-      - name: 7-Zip
-        run: |
-          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on lzma_16.7z S02E01.mp4 S02E02.mp4 S02E03.mp4 S02E04.mp4 S02E05.mp4 S02E06.mp4 S02E07.mp4 S02E08.mp4 S02E09.mp4 S02E10.mp4
-          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on lzma_32.7z S02E01.mp4 S02E02.mp4 S02E03.mp4 S02E04.mp4 S02E05.mp4 S02E06.mp4 S02E07.mp4 S02E08.mp4 S02E09.mp4 S02E10.mp4
-
-          7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=16m -ms=on lzma2_16.7z S02E01.mp4 S02E02.mp4 S02E03.mp4 S02E04.mp4 S02E05.mp4 S02E06.mp4 S02E07.mp4 S02E08.mp4 S02E09.mp4 S02E10.mp4
-          7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on lzma2_32.7z S02E01.mp4 S02E02.mp4 S02E03.mp4 S02E04.mp4 S02E05.mp4 S02E06.mp4 S02E07.mp4 S02E08.mp4 S02E09.mp4 S02E10.mp4
-
-          ls -la
-
-      - name: Upload S02E01 
+      - name: Upload S03E01 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E01
-          path: S02E01.mp4
+          name: S03E01
+          path: S03E01.mp4
           
-      - name: Upload S02E02 
+      - name: Upload S03E02 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E02
-          path: S02E02.mp4
+          name: S03E02
+          path: S03E02.mp4
           
-      - name: Upload S02E03 
+      - name: Upload S03E03 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E03
-          path: S02E03.mp4
+          name: S03E03
+          path: S03E03.mp4
           
-      - name: Upload S02E04 
+      - name: Upload S03E04 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E04
-          path: S02E04.mp4
+          name: S03E04
+          path: S03E04.mp4
           
-      - name: Upload S02E05 
+      - name: Upload S03E05 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E05
-          path: S02E05.mp4
+          name: S03E05
+          path: S03E05.mp4
           
-      - name: Upload S02E06 
+      - name: Upload S03E06 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E06
-          path: S02E06.mp4
+          name: S03E06
+          path: S03E06.mp4
           
-      - name: Upload S02E07 
+      - name: Upload S03E07 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E07
-          path: S02E07.mp4
+          name: S03E07
+          path: S03E07.mp4
           
-      - name: Upload S02E08 
+      - name: Upload S03E08 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E08
-          path: S02E08.mp4
+          name: S03E08
+          path: S03E08.mp4
           
-      - name: Upload S02E09 
+      - name: Upload S03E09 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E09
-          path: S02E09.mp4
+          name: S03E09
+          path: S03E09.mp4
           
-      - name: Upload S02E10 
+      - name: Upload S03E10 
         uses: actions/upload-artifact@v2
         with:
-          name: S02E10
-          path: S02E10.mp4
+          name: S03E10
+          path: S03E10.mp4
           
