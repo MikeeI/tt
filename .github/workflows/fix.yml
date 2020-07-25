@@ -1,0 +1,25 @@
+name: avidemux
+
+on:
+  push:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download Artifact
+      run: |
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12134461/zip"
+        ls -la
+        
+    - name : Fix
+      run: |
+        split -b 57360000 -d -a 3 artifact.zip cut_part
+        ls -la
+        
+    - name : Upload
+      uses: actions/upload-artifact@v2
+      with:
+        path: cut_part001
