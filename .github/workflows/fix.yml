@@ -11,15 +11,18 @@ jobs:
     steps:
     - name: Download Artifact
       run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12134468/zip"
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12156004/zip"
         ls -la
         
     - name : Fix
       run: |
-        split -b 33112000 -d -a 3 artifact.zip cut_part
+        split -b 9912300 -d -a 3 artifact.zip cut_part
+        rm cut_part000
+        ls -la
+        cat cut_part* > cut_all
         ls -la
         
     - name : Upload
       uses: actions/upload-artifact@v2
       with:
-        path: cut_part002
+        path: cut_all
