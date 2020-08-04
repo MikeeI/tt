@@ -2,6 +2,7 @@ name: avidemux
 
 on:
   push:
+    branches: [master]
 
 jobs:
   build:
@@ -9,21 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Download Artifact
+    - uses: actions/checkout@v2
+
+    - name : Install ffmpeg
       run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/12156010/zip"
-        ls -la
+        sudo apt-get update
+        sudo apt-get install ffmpeg
         
-    - name : Fix
+    - name : Install Axel
       run: |
-        split -b 60981240 -d -a 3 artifact.zip cut_part
-        rm cut_part000
-        ls -la
-        cat cut_part* > cut_all
-        ls -la
+        sudo apt update
+        sudo apt-get install axel
         
-    - name : Upload
-      uses: actions/upload-artifact@v2
+    - name: Download
+      run : |
+        axel -n 16 -o Black.Mirror.S04E01.mkv "https://fr7.seedr.cc/ff_get/718012967/Black.Mirror.S04E01.BDRip.x264-HAGGiS.mkv?st=pDxgR1Na9tV-iwKIFA8QRA&e=1596585531"
+        axel -n 16 -o Black.Mirror.S04E02.mkv "https://fr7.seedr.cc/ff_get/718012968/Black.Mirror.S04E02.BDRip.x264-HAGGiS.mkv?st=tnjIvVRkHaWMXBlaqmxzLw&e=1596585584"
+        axel -n 16 -o Black.Mirror.S04E04.mkv "https://fr7.seedr.cc/ff_get/718012970/Black.Mirror.S04E04.BDRip.x264-HAGGiS.mkv?st=cYmj7HVpCq53VBdR8NsTMw&e=1596585605"
+        
+    - name : Compress
+      run : |
+        ffmpeg -i Black.Mirror.S04E01.mkv -vcodec libx265 -crf 28 Black.Mirror.S04E01.mp4
+        ffmpeg -i Black.Mirror.S04E02.mkv -vcodec libx265 -crf 28 Black.Mirror.S04E02.mp4
+        ffmpeg -i Black.Mirror.S04E04.mkv -vcodec libx265 -crf 28 Black.Mirror.S04E04.mp4
+        
+    - run: ls -la
+        
+    - uses: actions/upload-artifact@v2
       with:
-        name: 7
-        path: cut_all
+        name: Black.Mirror.S04E01
+        path: Black.Mirror.S04E01.mp4
+      
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Black.Mirror.S04E02
+        path: Black.Mirror.S04E02.mp4
+      
+      
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Black.Mirror.S04E04
+        path: Black.Mirror.S04E04.mp4
+      
