@@ -24,31 +24,30 @@ jobs:
         
     - name: Download
       run : |
-        wget -O Black.Mirror.S05E01.mp4 "https://fr11.seedr.cc/ff_get/718012854/Black.Mirror.S05E01.WEBRip.x264-ION10.mp4?st=g30W7FgE1oqs_nEyTAZjSw&e=1596585999"
-        wget -O Black.Mirror.S05E02.mp4 "https://fr11.seedr.cc/ff_get/718012855/Black.Mirror.S05E02.WEBRip.x264-ION10.mp4?st=vZm36m4OLU3qoZpjHh-mgw&e=1596586095"
-        wget -O Black.Mirror.S05E03.mp4 "https://fr11.seedr.cc/ff_get/718012856/Black.Mirror.S05E03.WEBRip.x264-ION10.mp4?st=4Vrb8hiEKqxGSuVusCslaA&e=1596586117"
+        wget -O Black.Mirror.S04E01.mkv "https://fr7.seedr.cc/ff_get/718012967/Black.Mirror.S04E01.BDRip.x264-HAGGiS.mkv?st=pDxgR1Na9tV-iwKIFA8QRA&e=1596585531"
+        wget -O Black.Mirror.S04E02.mkv "https://fr7.seedr.cc/ff_get/718012968/Black.Mirror.S04E02.BDRip.x264-HAGGiS.mkv?st=tnjIvVRkHaWMXBlaqmxzLw&e=1596585584"
+        wget -O Black.Mirror.S04E04.mkv "https://fr7.seedr.cc/ff_get/718012970/Black.Mirror.S04E04.BDRip.x264-HAGGiS.mkv?st=cYmj7HVpCq53VBdR8NsTMw&e=1596585605"
         
     - name : Compress
       run : |
-        ffmpeg -i Black.Mirror.S05E01.mp4 -vcodec libx265 -crf 28 Black.Mirror.S05E01.mp4
-        ffmpeg -i Black.Mirror.S05E02.mp4 -vcodec libx265 -crf 28 Black.Mirror.S05E02.mp4
-        ffmpeg -i Black.Mirror.S05E03.mp4 -vcodec libx265 -crf 28 Black.Mirror.S05E03.mp4
+        ffmpeg -i Black.Mirror.S04E01.mkv -vcodec libx265 -crf 28 Black.Mirror.S04E01.mp4
+        ffmpeg -i Black.Mirror.S04E02.mkv -vcodec libx265 -crf 28 Black.Mirror.S04E02.mp4
+        ffmpeg -i Black.Mirror.S04E04.mkv -vcodec libx265 -crf 28 Black.Mirror.S04E04.mp4
         
     - run: ls -la
         
     - uses: actions/upload-artifact@v2
       with:
-        name: Black.Mirror.S05E01
-        path: Black.Mirror.S05E01.mp4
+        name: Black.Mirror.S04E01
+        path: Black.Mirror.S04E01.mp4
       
     - uses: actions/upload-artifact@v2
       with:
-        name: Black.Mirror.S05E02
-        path: Black.Mirror.S05E02.mp4
+        name: Black.Mirror.S04E02
+        path: Black.Mirror.S04E02.mp4
       
       
     - uses: actions/upload-artifact@v2
       with:
-        name: Black.Mirror.S05E03
-        path: Black.Mirror.S05E03.mp4
-      
+        name: Black.Mirror.S04E04
+        path: Black.Mirror.S04E04.mp4
