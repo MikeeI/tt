@@ -1,0 +1,28 @@
+name: fix
+
+on:
+  push:
+    branches: [fix]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download Artifact
+      run: |
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/13022117/zip"
+        ls -la
+        
+    - name : Fix
+      run: |
+        split -b 146931704 -d -a 3 artifact.zip cut_part
+        rm cut_part000
+        ls -la
+        cat cut_part* > cut_all
+        ls -la
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        path: cut_all
