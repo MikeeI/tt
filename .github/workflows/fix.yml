@@ -24,16 +24,16 @@ jobs:
         
     - name: Download
       run : |
-        wget -O gone.girl_.mp4 "https://de12.seedr.cc/ff_get/720051412/Gone.Girl.2014.1080p.BluRay.x264.YIFY.mp4?st=D6a0lWBXRPZTP_AHwMU0Pg&e=1596857041"
+        wget -O Django.Unchained.2012_.mp4 "https://de1.seedr.cc/ff_get/720051429/Django.Unchained.2012.1080p.BluRay.x264.YIFY.mp4?st=gtWxDy3zVhKgENV3wZKykg&e=1596857155"
 
     - name : Compress
       run : |
-        ffmpeg -i gone.girl_.mp4 -vcodec libx265 -crf 20 Gone.Girl.mp4
+        ffmpeg -i Django.Unchained.2012_.mp4 -vcodec libx265 -crf 20 Django.Unchained.2012.mp4
 
     - run: ls -la
         
     - uses: actions/upload-artifact@v2
       with:
-        name: Gone.Girl
-        path: Gone.Girl.mp4
+        name: Django.Unchained.2012
+        path: Django.Unchained.2012.mp4
 
