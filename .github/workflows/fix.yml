@@ -28,11 +28,13 @@ jobs:
 
     - name : Compress
       run : |
-        ffmpeg -i Django.Unchained.2012_.mp4 -vcodec libx265 -crf 20 Django.Unchained.2012.mp4
+        ffmpeg -i Django.Unchained.2012_.mp4 -vcodec libx265 -crf 28 Django.Unchained.2012.mp4
 
     - run: ls -la
+      if: always()
         
     - uses: actions/upload-artifact@v2
+      if: always()
       with:
         name: Django.Unchained.2012
         path: Django.Unchained.2012.mp4
