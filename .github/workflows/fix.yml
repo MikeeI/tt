@@ -25,7 +25,9 @@ jobs:
         
     - name: Download
       run : |
-        wget -O file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
+        mkdir new
+        cd ./new
+        axel -n 1 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
         7z e file.rar
         
     - name : Compress
