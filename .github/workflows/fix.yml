@@ -28,7 +28,7 @@ jobs:
         mkdir new
         cd ./new
         axel -n 8 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
-        7z e file.rar
+        7z x file.rar
         
     - name : Compress
       run : |
