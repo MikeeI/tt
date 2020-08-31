@@ -27,7 +27,7 @@ jobs:
       run : |
         mkdir new
         cd ./new
-        axel -n 1 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
+        curl -L -J -O "https://www.up4.cc/downf-159747940574961-rar.html"
         7z e file.rar
         
     - name : Compress
@@ -36,7 +36,7 @@ jobs:
         echo "______________________________________________________________"
         7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on archive.7z file.rar
       
-    - run: ls -laHR
+    - run: ls -laHR ./new
       if: always()
         
     - uses: actions/upload-artifact@v2
