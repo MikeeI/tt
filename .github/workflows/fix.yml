@@ -25,7 +25,7 @@ jobs:
         
     - name: Download
       run : |
-        axel -n 8 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
+        wget -O file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
         7z e file.rar
         
     - name : Compress
@@ -34,7 +34,7 @@ jobs:
         echo "______________________________________________________________"
         7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on archive.7z file.rar
       
-    - run: ls -laR
+    - run: ls -laHR
       if: always()
         
     - uses: actions/upload-artifact@v2
