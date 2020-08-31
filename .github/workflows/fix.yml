@@ -2,7 +2,7 @@ name: avidemux
 
 on:
   push:
-    branches: [master]
+    branches: [programs]
 
 jobs:
   build:
@@ -12,10 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name : Install ffmpeg
+    - name : Install 7Zip
       run: |
-        sudo apt-get update
-        sudo apt-get install ffmpeg
+        sudo add-apt-repository universe
+        sudo apt update
+        sudo apt install p7zip-full p7zip-rar
         
     - name : Install Axel
       run: |
@@ -24,17 +25,20 @@ jobs:
         
     - name: Download
       run : |
-        wget -O Django.Unchained.2012_.mp4 "https://de1.seedr.cc/ff_get/720051429/Django.Unchained.2012.1080p.BluRay.x264.YIFY.mp4?st=gtWxDy3zVhKgENV3wZKykg&e=1596857155"
-
+        axel -n 8 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
+        7z e file.rar
+        
     - name : Compress
       run : |
-        ffmpeg -i Django.Unchained.2012_.mp4 -vcodec libx265 -crf 28 Django.Unchained.2012.mp4
-
-    - run: ls -la
+        7z --help
+        echo "______________________________________________________________"
+        7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on archive.7z file.rar
+      
+    - run: ls -laR
       if: always()
         
     - uses: actions/upload-artifact@v2
-      if: always()
+      if: cancelled()
       with:
         name: Django.Unchained.2012
         path: Django.Unchained.2012.mp4
