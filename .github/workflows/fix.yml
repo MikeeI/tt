@@ -33,15 +33,18 @@ jobs:
     - name : Compress
       run : |
         7z --help
+        cd ./new
         echo "______________________________________________________________"
-        7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on archive.7z file.rar
-      
+        7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on set.7z "FaresCD.Com.Ado.Phot.2020.v21.2.2.289/Set-up.exe"
+        7z a -r -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on photo.7z "FaresCD.Com.Ado.Phot.2020.v21.2.2.289"
+
     - run: ls -laHR ./new
       if: always()
         
     - uses: actions/upload-artifact@v2
-      if: cancelled()
+      if: always()
       with:
-        name: Django.Unchained.2012
-        path: Django.Unchained.2012.mp4
-
+        path: ./new/set.7z
+        
+        
+        
