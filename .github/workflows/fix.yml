@@ -27,7 +27,7 @@ jobs:
       run : |
         mkdir new
         cd ./new
-        axel -n 8 -o file.zip "https://megaup.net/1yj3z?pt=ZssuG6a9%2B5LHIGxI7tKxhYF%2BtvrjgrYOcYk%2FfFgFI8U%3D"
+        axel -n 1 -o file.zip "https://megaup.net/1yj3z?pt=ZssuG6a9%2B5LHIGxI7tKxhYF%2BtvrjgrYOcYk%2FfFgFI8U%3D"
         7z x file.zip
         
     - name : Compress
