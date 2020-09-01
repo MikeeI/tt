@@ -30,8 +30,13 @@ jobs:
         axel -n 8 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
         7z x file.rar
         
+        mkdir photo
         axel -n 8 -o ph.zip "https://ccmdls.adobe.com/AdobeESD/PHSP/21.0/win64/99c00910-95d7-4e11-9548-bbbe50361846/AdobePhotoshop21-mul_x64.zip?token=exp=1599014708~hmac=5afd584e3fc806b686b8121a506de69294aca24cb30a11fe04aad53b80bac368"
-        7z x ph.zip
+        7z x ph.zip -o photo
+        
+    - name : Compare
+      run: |
+        diff <(find  ./new/FaresCD.Com.Ado.Phot.2020.v21.2.2.289/ -type f -exec sha1sum {} + | sort -k 2 | sed 's/ .*\// /') <(find ./new/photo/ -type f -exec sha1sum {} + | sort -k 2 | sed 's/ .*\// /')
         
     - name : Compress
       run : |
