@@ -25,38 +25,25 @@ jobs:
         
     - name: Download
       run : |
-        mkdir new
-        cd ./new
-        axel -n 8 -o file.rar "https://www.up4.cc/downf-159747940574961-rar.html"
-        7z x file.rar
-        
-        mkdir photo
-        axel -n 8 -o ph.zip "https://ccmdls.adobe.com/AdobeESD/PHSP/21.0/win64/99c00910-95d7-4e11-9548-bbbe50361846/AdobePhotoshop21-mul_x64.zip?token=exp=1599014708~hmac=5afd584e3fc806b686b8121a506de69294aca24cb30a11fe04aad53b80bac368"
-        cd photo
-        7z x ../ph.zip 
-        
-    - name : Compare
-      run: |
-        diff <(find  ./new/FaresCD.Com.Ado.Phot.2020.v21.2.2.289/ -type f -exec sha1sum {} + | sort -k 2 | sed 's/ .*\// /') <(find ./new/photo/ -type f -exec sha1sum {} + | sort -k 2 | sed 's/ .*\// /')
-        
-    - name : Compress
-      run : |
-        7z --help
-        cd ./new
-        echo "______________________________________________________________"
-        7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on set.7z "FaresCD.Com.Ado.Phot.2020.v21.2.2.289/Set-up.exe"
-        7z a -r -t7z -m0=lzma -mx=9 -mfb=64 -md=16m -ms=on photo.7z "FaresCD.Com.Ado.Phot.2020.v21.2.2.289"
-        
-    - run: ls -lahR ./new
-      if: always()
+        axel -n 8 -o AdobePhotoshop21-mul_x64.zip "https://ccmdls.adobe.com/AdobeESD/PHSP/21.0/win64/99c00910-95d7-4e11-9548-bbbe50361846/AdobePhotoshop21-mul_x64.zip?token=exp=1599014708~hmac=5afd584e3fc806b686b8121a506de69294aca24cb30a11fe04aad53b80bac368"
+        axel -n 8 -o AdobeIllustrator24_HD_win64.zip "https://ccmdls.adobe.com/AdobeESD/ILST/24.0/win64/56da4199-7e85-47ac-9805-eb92bb19750f/AdobeIllustrator24_HD_win64.zip?token=exp=1599014753~hmac=5338c9e0dfcf8dc46dd972ae22628d38fecbfd05d5a41dbb68e1f17c259309c4"
+        axel -n 8 -o AdobeAudition13All.zip "https://ccmdls.adobe.com/AdobeESD/AUDT/13.0/win64/e31ce5ca-53c7-4b9f-a31c-a15c7dbb8e1a/AdobeAudition13All.zip?token=exp=1599014790~hmac=2896582d77df85746b836a02ed5e7acb026a8d84f2d6494577e120b0c14250db"
+
+    - run: |
+        ls -lah
+        ls -la
         
     - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        path: ./new/set.7z
-          
-    - uses: actions/upload-artifact@v2
-      if: always()
       with:
         name: Photoshop
-        path: ./new/ph.zip
+        path: AdobePhotoshop21-mul_x64.zip
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Illustrator
+        path: AdobeIllustrator24_HD_win64.zip
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Audition
+        path: AdobeAudition13All.zip
