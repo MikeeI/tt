@@ -67,6 +67,11 @@ jobs:
         with:
           name: Sherlock.Holmes.2009.YIFY.0
         
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
       - run: |
           ffmpeg -i Sherlock.Holmes.2009.0.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.2009.0_.mp4
       - uses: actions/upload-artifact@v2
@@ -84,6 +89,12 @@ jobs:
         with:
           name: Sherlock.Holmes.2009.YIFY.1
         
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+          
+          
       - run: |
           ffmpeg -i Sherlock.Holmes.2009.1.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.2009.1_.mp4
       - uses: actions/upload-artifact@v2
@@ -103,6 +114,12 @@ jobs:
         with:
           name: Sherlock.Holmes.2009.YIFY.2
         
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+          
       - run: |
           ffmpeg -i Sherlock.Holmes.2009.2.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.2009.2_.mp4
       - uses: actions/upload-artifact@v2
@@ -122,6 +139,13 @@ jobs:
         with:
           name: Sherlock.Holmes.2009.YIFY.3
         
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+          
+          
       - run: |
           ffmpeg -i Sherlock.Holmes.2009.3.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.2009.3_.mp4
       - uses: actions/upload-artifact@v2
@@ -155,7 +179,12 @@ jobs:
 
       - run : ls -lah
           
-
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+          
+          
       - run : |
           for f in ./*.mp4; do echo "file '$f'" >> mylist.txt; done
           ffmpeg -f concat -safe 0 -i mylist.txt -c copy Sherlock.Holmes.2009.mp4
