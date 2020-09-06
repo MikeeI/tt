@@ -5,9 +5,9 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  prepare:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
@@ -24,11 +24,11 @@ jobs:
         
     - name: Download
       run : |
-        wget -O Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY_.mp4 "https://de4.seedr.cc/ff_get/739513902/Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY.mp4?st=2jusT2wDz7UiUPmTTLG8Cg&e=1599479870"
+        wget -O Sherlock.Holmes.A.Game.Of.Shadows.2011_.mp4 "https://de4.seedr.cc/ff_get/739513902/Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY.mp4?st=2jusT2wDz7UiUPmTTLG8Cg&e=1599479870"
 
-    - name : Compress
+    - name : Split
       run : |
-        ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY_.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY.mp4
+        ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011_.mp4 -f segment -segment_time 2100 -c copy -reset_timestamps 1 Sherlock.Holmes.A.Game.Of.Shadows.2011.%01d.mp4
         
     - run: ls -la
       if: always()
@@ -36,6 +36,140 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY
-        path: Sherlock.Holmes.A.Game.Of.Shadows.2011.1080p.BrRip.x264.YIFY.mp4
+        name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1
+        path: Sherlock.Holmes.A.Game.Of.Shadows.2011.1.mp4
 
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2
+        path: Sherlock.Holmes.A.Game.Of.Shadows.2011.2.mp4
+        
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3
+        path: Sherlock.Holmes.A.Game.Of.Shadows.2011.3.mp4
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.4
+        path: Sherlock.Holmes.A.Game.Of.Shadows.2011.4.mp4
+        
+        
+        
+  part_1:
+    runs-on: ububtu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1
+        
+      - run: |
+          ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.1.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.1_.mp4
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1_
+          path: Sherlock.Holmes.A.Game.Of.Shadows.2011.1_.mp4
+
+        
+        
+        
+  part_2:
+    runs-on: ububtu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2
+        
+      - run: |
+          ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.2.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.2_.mp4
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2_
+          path: Sherlock.Holmes.A.Game.Of.Shadows.2011.2_.mp4
+        
+        
+        
+        
+  part_3:
+    runs-on: ububtu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3
+        
+      - run: |
+          ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.3.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.3_.mp4
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3_
+          path: Sherlock.Holmes.A.Game.Of.Shadows.2011.3_.mp4
+        
+        
+        
+        
+        
+  part_4:
+    runs-on: ububtu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.4
+        
+      - run: |
+          ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.4.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.4_.mp4
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.4_
+          path: Sherlock.Holmes.A.Game.Of.Shadows.2011.4_.mp4
+        
+        
+        
+        
+  combine:
+    runs-on: ubuntu-20.04
+    needs: [prepare , part_1 , part_2 , part_3 , part_4]
+    steps:
+      - uses:  actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1_
+        
+      - uses:  actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2_
+        
+      - uses:  actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3_
+      
+      - uses:  actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.4_
+          
+      - run : |
+          for f in ./*.mp4; do echo "file '$f'" >> mylist.txt; done
+          ffmpeg -f concat -safe 0 -i mylist.txt -c copy Sherlock.Holmes.A.Game.Of.Shadows.2011.mp4
+          
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Sherlock.Holmes.A.Game.Of.Shadows.2011
+          path: Sherlock.Holmes.A.Game.Of.Shadows.2011.mp4
+        
+        
+          
