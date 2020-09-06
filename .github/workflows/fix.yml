@@ -24,11 +24,11 @@ jobs:
         
     - name: Download
       run : |
-        wget -O Django.Unchained.2012_.mp4 "https://de1.seedr.cc/ff_get/720051429/Django.Unchained.2012.1080p.BluRay.x264.YIFY.mp4?st=gtWxDy3zVhKgENV3wZKykg&e=1596857155"
+        wget -O Sherlock.Holms.2009.1080p.BrRip.x264.YIFY_.mp4 "https://de4.seedr.cc/ff_get/739513780/Sherlock.Holms.2009.1080p.BrRip.x264.YIFY.mp4?st=hEZUkDbqyZZQgDbjlBzCPw&e=1599479786"
 
     - name : Compress
       run : |
-        ffmpeg -i Django.Unchained.2012_.mp4 -vcodec libx265 -crf 28 Django.Unchained.2012.mp4
+        ffmpeg -i Sherlock.Holms.2009.1080p.BrRip.x264.YIFY_.mp4 -vcodec libx265 -crf 28 Sherlock.Holms.2009.1080p.BrRip.x264.YIFY.mp4
 
     - run: ls -la
       if: always()
@@ -36,6 +36,6 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: Django.Unchained.2012
-        path: Django.Unchained.2012.mp4
+        name: Sherlock.Holms.2009.1080p.BrRip.x264.YIFY
+        path: Sherlock.Holms.2009.1080p.BrRip.x264.YIFY.mp4
 
