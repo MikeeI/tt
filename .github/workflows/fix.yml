@@ -36,6 +36,12 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
+        name: Sherlock.Holmes.2009.YIFY.0
+        path: Sherlock.Holmes.2009.0.mp4
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
         name: Sherlock.Holmes.2009.YIFY.1
         path: Sherlock.Holmes.2009.1.mp4
 
@@ -52,12 +58,24 @@ jobs:
         name: Sherlock.Holmes.2009.YIFY.3
         path: Sherlock.Holmes.2009.3.mp4
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: Sherlock.Holmes.2009.YIFY.4
-        path: Sherlock.Holmes.2009.4.mp4
         
+                
+  part_0:
+    runs-on: ububtu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.2009.YIFY.0
+        
+      - run: |
+          ffmpeg -i Sherlock.Holmes.2009.0.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.2009.0_.mp4
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Sherlock.Holmes.2009.YIFY.0_
+          path: Sherlock.Holmes.2009.0_.mp4
         
         
   part_1:
@@ -119,32 +137,15 @@ jobs:
         
         
         
-        
-        
-  part_4:
-    runs-on: ububtu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: Sherlock.Holmes.2009.YIFY.4
-        
-      - run: |
-          ffmpeg -i Sherlock.Holmes.2009.4.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.2009.4_.mp4
-
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: Sherlock.Holmes.2009.YIFY.4_
-          path: Sherlock.Holmes.2009.4_.mp4
-        
-        
-        
-        
   combine:
     runs-on: ubuntu-20.04
-    needs: [prepare , part_1 , part_2 , part_3 , part_4]
+    needs: [prepare , part_0 , part_1 , part_2 , part_3]
     steps:
+      
+      - uses:  actions/download-artifact@v2
+        with:
+          name: Sherlock.Holmes.2009.YIFY.0_
+          
       - uses:  actions/download-artifact@v2
         with:
           name: Sherlock.Holmes.2009.YIFY.1_
@@ -156,11 +157,10 @@ jobs:
       - uses:  actions/download-artifact@v2
         with:
           name: Sherlock.Holmes.2009.YIFY.3_
-      
-      - uses:  actions/download-artifact@v2
-        with:
-          name: Sherlock.Holmes.2009.YIFY.4_
+
+      - run : ls -lah
           
+
       - run : |
           for f in ./*.mp4; do echo "file '$f'" >> mylist.txt; done
           ffmpeg -f concat -safe 0 -i mylist.txt -c copy Sherlock.Holmes.2009.mp4
