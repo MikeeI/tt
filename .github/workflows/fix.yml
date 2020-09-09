@@ -48,7 +48,10 @@ jobs:
         echo "________________new__________________"
         ls -lah
         cd ..
+        SAVEIFS=$IFS
+        IFS=$(echo -en "\n\b")
         ls | head -n 25 | xargs rm --
+        IFS=$SAVEIFS
         echo "______________________________________"
         ls -lah
       
