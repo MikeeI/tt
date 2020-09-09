@@ -29,16 +29,16 @@ jobs:
         
     - name: Download
       run : |
-        youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLS0C-y7jxf3V7NDCqa42xkoOLzueKAdee' --playlist-end 43
+        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLS0C-y7jxf3V7NDCqa42xkoOLzueKAdee' --playlist-end 43
     
-    - run: ls -la
+    - run: ls -lah
       if: always()
         
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.0
-#         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.0.mp4
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos
+        path: ./*.mp4
         
 #     - uses: actions/upload-artifact@v2
 #       if: always()
