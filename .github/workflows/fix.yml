@@ -38,9 +38,21 @@ jobs:
         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=BfJUE53-NbY'
         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=Coaf-i4Kzew'
 
-      
     - run : |
         mkdir new
+        cd new
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16948640/zip"
+        unzip artifact.zip
+        rm artifact.zip
+        rm 'Ethical Hacking [Arabic] Video 33-Coaf-i4Kzew.mp4'
+        echo "________________new__________________"
+        ls -lah
+        cd ..
+        ls | head -n 25 | xargs rm --
+        echo "______________________________________"
+        ls -lah
+      
+    - run : |
         for i in *.mp4 ; do
             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
             echo "______________________________________________________________________________________________"
