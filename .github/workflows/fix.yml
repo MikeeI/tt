@@ -27,10 +27,26 @@ jobs:
         sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
         
+    - name : Download Artifact
+      run: |
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16895248/zip"
+        unzip artifact.zip
+        ls -lh
+        
     - name: Download
       run : |
-        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLS0C-y7jxf3V7NDCqa42xkoOLzueKAdee' --playlist-end 43
-    
+        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=BfJUE53-NbY'
+        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=Coaf-i4Kzew'
+
+      
+    - run : |
+        mkdir new
+        for i in *.mp4 ; do
+            ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+            echo "______________________________________________________________________________________________"
+            ls -lh ./new
+        done
+      
     - run: ls -lah
       if: always()
         
@@ -38,7 +54,7 @@ jobs:
       if: always()
       with:
         name: videos
-        path: ./*.mp4
+        path: ./new/*.mp4
         
 #     - uses: actions/upload-artifact@v2
 #       if: always()
