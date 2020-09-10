@@ -42,18 +42,17 @@ jobs:
     - run : |
         mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
         ls -lh
-        cd ..
         SAVEIFS=$IFS
         IFS=$(echo -en "\n\b")
-        mv `ls | head -4` ./n1/
-        mv `ls | head -3` ./n2/
-        mv `ls | head -2` ./n3/
-        mv `ls | head -7` ./n4/
-        mv `ls | head -8` ./n5/
-        mv `ls | head -5` ./n6/
-        mv `ls | head -5` ./n7/
-        mv `ls | head -5` ./n8/
-        mv `ls | head -5` ./n9/
+        mv `find . -maxdepth 1 -not -type d | head -4` ./n1/
+        mv `find . -maxdepth 1 -not -type d | head -3` ./n2/
+        mv `find . -maxdepth 1 -not -type d | head -2` ./n3/
+        mv `find . -maxdepth 1 -not -type d | head -7` ./n4/
+        mv `find . -maxdepth 1 -not -type d | head -8` ./n5/
+        mv `find . -maxdepth 1 -not -type d | head -5` ./n6/
+        mv `find . -maxdepth 1 -not -type d | head -5` ./n7/
+        mv `find . -maxdepth 1 -not -type d | head -5` ./n8/
+        mv `find . -maxdepth 1 -not -type d | head -5` ./n9/
         IFS=$SAVEIFS
         echo "______________________________________"
         ls -lRh
@@ -66,6 +65,7 @@ jobs:
     #     done
       
     - run: ls -laRh
+      continue-on-error: true
       if: always()
         
     - uses: actions/upload-artifact@v2
