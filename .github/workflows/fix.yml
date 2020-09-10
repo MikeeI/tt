@@ -33,29 +33,45 @@ jobs:
         unzip artifact.zip
         ls -lh
         
-    - name: Download
-      run : |
-        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=BfJUE53-NbY'
-        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=Coaf-i4Kzew'
-        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=2vExxXKRFug'
+#     - name: Download
+#       run : |
+#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=BfJUE53-NbY'
+#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=Coaf-i4Kzew'
+#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=2vExxXKRFug'
 
+      
     - run : |
-        mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
-        ls -lh
-        SAVEIFS=$IFS
-        IFS=$(echo -en "\n\b")
-        mv `find . -maxdepth 1 -not -type d | head -4` ./n1/
-        mv `find . -maxdepth 1 -not -type d | head -3` ./n2/
-        mv `find . -maxdepth 1 -not -type d | head -2` ./n3/
-        mv `find . -maxdepth 1 -not -type d | head -7` ./n4/
-        mv `find . -maxdepth 1 -not -type d | head -8` ./n5/
-        mv `find . -maxdepth 1 -not -type d | head -5` ./n6/
-        mv `find . -maxdepth 1 -not -type d | head -5` ./n7/
-        mv `find . -maxdepth 1 -not -type d | head -5` ./n8/
-        mv `find . -maxdepth 1 -not -type d | head -5` ./n9/
-        IFS=$SAVEIFS
-        echo "______________________________________"
-        ls -lRh
+        mkdir n1
+        mv ./'Ethical Hacking [Arabic] Video 11-wDAJYIMtm1U.mp4' ./n1/
+        mv ./'Ethical Hacking [Arabic] Video 15-2l9XzZoLUEQ.mp4' ./n1/
+        mv ./'Ethical Hacking [Arabic] Video 43-TujVtcopviw.mp4' ./n1/
+        mv ./'Ethical Hacking [Arabic] Video 45-Eepodov6bso.mp4' ./n1/
+        cd ./n1/
+        mkdir new
+        
+        for i in *.mp4 ; do
+            ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+            echo "______________________________________________________________________________________________"
+            ls -lh ./new
+        done
+
+#     - run : |
+#         mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
+#         ls -lh
+#         SAVEIFS=$IFS
+#         IFS=$(echo -en "\n\b")
+#         mv `find . -maxdepth 1 -not -type d | head -4` ./n1/
+#         mv `find . -maxdepth 1 -not -type d | head -3` ./n2/
+#         mv `find . -maxdepth 1 -not -type d | head -2` ./n3/
+#         mv `find . -maxdepth 1 -not -type d | head -7` ./n4/
+#         mv `find . -maxdepth 1 -not -type d | head -8` ./n5/
+#         mv `find . -maxdepth 1 -not -type d | head -5` ./n6/
+#         mv `find . -maxdepth 1 -not -type d | head -5` ./n7/
+#         mv `find . -maxdepth 1 -not -type d | head -5` ./n8/
+#         mv `find . -maxdepth 1 -not -type d | head -5` ./n9/
+#         IFS=$SAVEIFS
+#         echo "______________________________________"
+#         ls -lRh
       
     # - run : |
     #     for i in *.mp4 ; do
@@ -64,324 +80,324 @@ jobs:
     #         ls -lh ./new
     #     done
       
-    - run: ls -laRh
+    - run: ls -lRh
       continue-on-error: true
       if: always()
         
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: videos1
-        path: ./n1/*.mp4
+        name: _videos0
+        path: ./n1/new/*.mp4
         
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos2
-        path: ./n2/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos2
+#         path: ./n2/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos3
-        path: ./n3/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos3
+#         path: ./n3/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos4
-        path: ./n4/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos4
+#         path: ./n4/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos5
-        path: ./n5/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos5
+#         path: ./n5/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos6
-        path: ./n6/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos6
+#         path: ./n6/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos7
-        path: ./n7/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos7
+#         path: ./n7/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos8
-        path: ./n8/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos8
+#         path: ./n8/*.mp4
                 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos9
-        path: ./n9/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos9
+#         path: ./n9/*.mp4
 
                 
-  part_1:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos1
+#   part_1:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos1
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos1
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos1
+#           path: ./new/*.mp4
 
                 
-  part_2:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos2
+#   part_2:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos2
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos2
-          path: ./new/*.mp4
-
-
-                
-  part_3:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos3
-        
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
-        
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos3
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos2
+#           path: ./new/*.mp4
 
 
                 
-  part_4:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos4
+#   part_3:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos3
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos4
-          path: ./new/*.mp4
-
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos3
+#           path: ./new/*.mp4
 
 
                 
-  part_5:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos5
+#   part_4:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos4
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos5
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos4
+#           path: ./new/*.mp4
 
 
 
                 
-  part_6:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos6
+#   part_5:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos5
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos6
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos5
+#           path: ./new/*.mp4
 
 
 
                 
-  part_7:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos7
+#   part_6:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos6
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos7
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos6
+#           path: ./new/*.mp4
 
 
 
                 
-  part_8:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos8
+#   part_7:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos7
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos8
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos7
+#           path: ./new/*.mp4
 
 
 
                 
-  part_9:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: videos9
+#   part_8:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos8
         
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
         
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
       
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos9
-          path: ./new/*.mp4
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos8
+#           path: ./new/*.mp4
+
+
+
+                
+#   part_9:
+#     runs-on: ubuntu-20.04
+#     needs: [prepare]
+#     steps:
+#       - uses: actions/download-artifact@v2
+#         with:
+#           name: videos9
+        
+#       - name : Install ffmpeg
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install ffmpeg
+        
+#       - run : |
+#           mkdir new
+#           for i in *.mp4 ; do
+#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#               echo "______________________________________________________________________________________________"
+#               ls -lh ./new
+#           done
+      
+#       - uses: actions/upload-artifact@v2
+#         if: always()
+#         with:
+#           name: _videos9
+#           path: ./new/*.mp4
