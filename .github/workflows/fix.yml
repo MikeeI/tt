@@ -12,15 +12,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name : Install ffmpeg
-      run: |
-        sudo apt-get update
-        sudo apt-get install ffmpeg
+    # - name : Install ffmpeg
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install ffmpeg
         
-    - name : Install Axel
-      run: |
-        sudo apt update
-        sudo apt-get install axel
+    # - name : Install Axel
+    #   run: |
+    #     sudo apt update
+    #     sudo apt-get install axel
         
     - name : Install Youtube-DL
       run: |
@@ -37,195 +37,351 @@ jobs:
       run : |
         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=BfJUE53-NbY'
         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=Coaf-i4Kzew'
+        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=2vExxXKRFug'
 
     - run : |
-        mkdir new
-        cd new
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16948640/zip"
-        unzip artifact.zip
-        rm artifact.zip
-        rm 'Ethical Hacking [Arabic] Video 33-Coaf-i4Kzew.mp4'
-        echo "________________new__________________"
-        ls -lah
+        mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
+        ls -lh
         cd ..
         SAVEIFS=$IFS
         IFS=$(echo -en "\n\b")
-        ls | head -n 25 | xargs rm --
+        mv `ls | head -4` ./n1/
+        mv `ls | head -3` ./n2/
+        mv `ls | head -2` ./n3/
+        mv `ls | head -7` ./n4/
+        mv `ls | head -8` ./n5/
+        mv `ls | head -5` ./n6/
+        mv `ls | head -5` ./n7/
+        mv `ls | head -5` ./n8/
+        mv `ls | head -5` ./n9/
         IFS=$SAVEIFS
         echo "______________________________________"
-        ls -lah
+        ls -lRh
       
-    - run : |
-        for i in *.mp4 ; do
-            ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-            echo "______________________________________________________________________________________________"
-            ls -lh ./new
-        done
+    # - run : |
+    #     for i in *.mp4 ; do
+    #         ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+    #         echo "______________________________________________________________________________________________"
+    #         ls -lh ./new
+    #     done
       
-    - run: ls -lah
+    - run: ls -laRh
       if: always()
         
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: videos
-        path: ./new/*.mp4
+        name: videos1
+        path: ./n1/*.mp4
         
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1
-#         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.1.mp4
-
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2
-#         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.2.mp4
-        
-        
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3
-#         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.3.mp4
-
-        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos2
+        path: ./n2/*.mp4
                 
-  # part_0:
-  #   runs-on: ubuntu-20.04
-  #   needs: [prepare]
-  #   steps:
-  #     - uses: actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.0
-        
-  #     - name : Install ffmpeg
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install ffmpeg
-        
-  #     - run: |
-  #         ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.0.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.0_.mp4
-  #     - uses: actions/upload-artifact@v2
-  #       if: always()
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.0_
-  #         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.0_.mp4
-        
-        
-  # part_1:
-  #   runs-on: ubuntu-20.04
-  #   needs: [prepare]
-  #   steps:
-  #     - uses: actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1
-        
-  #     - name : Install ffmpeg
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install ffmpeg
-          
-          
-  #     - run: |
-  #         ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.1.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.1_.mp4
-  #     - uses: actions/upload-artifact@v2
-  #       if: always()
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1_
-  #         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.1_.mp4
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos3
+        path: ./n3/*.mp4
+                
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos4
+        path: ./n4/*.mp4
+                
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos5
+        path: ./n5/*.mp4
+                
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos6
+        path: ./n6/*.mp4
+                
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos7
+        path: ./n7/*.mp4
+                
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos8
+        path: ./n8/*.mp4
+                
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos9
+        path: ./n9/*.mp4
 
+                
+  part_1:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos1
         
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-        
-  # part_2:
-  #   runs-on: ubuntu-20.04
-  #   needs: [prepare]
-  #   steps:
-  #     - uses: actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2
-        
-        
-  #     - name : Install ffmpeg
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install ffmpeg
-          
-  #     - run: |
-  #         ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.2.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.2_.mp4
-  #     - uses: actions/upload-artifact@v2
-  #       if: always()
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2_
-  #         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.2_.mp4
-        
-        
-        
-        
-  # part_3:
-  #   runs-on: ubuntu-20.04
-  #   needs: [prepare]
-  #   steps:
-  #     - uses: actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3
-        
-        
-  #     - name : Install ffmpeg
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install ffmpeg
-          
-          
-  #     - run: |
-  #         ffmpeg -i Sherlock.Holmes.A.Game.Of.Shadows.2011.3.mp4 -vcodec libx265 -crf 28 Sherlock.Holmes.A.Game.Of.Shadows.2011.3_.mp4
-  #     - uses: actions/upload-artifact@v2
-  #       if: always()
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3_
-  #         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.3_.mp4
-        
-        
-        
-  # combine:
-  #   runs-on: ubuntu-20.04
-  #   needs: [prepare , part_0 , part_1 , part_2 , part_3]
-  #   steps:
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-  #     - uses:  actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.0_
-          
-  #     - uses:  actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.1_
-        
-  #     - uses:  actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.2_
-        
-  #     - uses:  actions/download-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011.YIFY.3_
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos1
+          path: ./new/*.mp4
 
-  #     - run : ls -lah
-          
-  #     - name : Install ffmpeg
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install ffmpeg
-          
-          
-  #     - run : |
-  #         for f in ./*.mp4; do echo "file '$f'" >> mylist.txt; done
-  #         ffmpeg -f concat -safe 0 -i mylist.txt -c copy Sherlock.Holmes.A.Game.Of.Shadows.2011.mp4
-          
-          
-  #     - uses: actions/upload-artifact@v2
-  #       with:
-  #         name: Sherlock.Holmes.A.Game.Of.Shadows.2011
-  #         path: Sherlock.Holmes.A.Game.Of.Shadows.2011.mp4
+                
+  part_2:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos2
         
-  
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos2
+          path: ./new/*.mp4
+
+
+                
+  part_3:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos3
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos3
+          path: ./new/*.mp4
+
+
+                
+  part_4:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos4
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos4
+          path: ./new/*.mp4
+
+
+
+                
+  part_5:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos5
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos5
+          path: ./new/*.mp4
+
+
+
+                
+  part_6:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos6
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos6
+          path: ./new/*.mp4
+
+
+
+                
+  part_7:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos7
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos7
+          path: ./new/*.mp4
+
+
+
+                
+  part_8:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos8
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos8
+          path: ./new/*.mp4
+
+
+
+                
+  part_9:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: videos9
+        
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos9
+          path: ./new/*.mp4
