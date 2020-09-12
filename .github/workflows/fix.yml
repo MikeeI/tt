@@ -27,33 +27,30 @@ jobs:
         sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
         
-    - name : Download Artifact
-      run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16895248/zip"
-        unzip artifact.zip
-        ls -lh
+#     - name : Download Artifact
+#       run: |
+#         curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16895248/zip"
+#         unzip artifact.zip
+#         ls -lh
         
-#     - name: Download
-#       run : |
-#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=BfJUE53-NbY'
-#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=Coaf-i4Kzew'
-#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=2vExxXKRFug'
-
+    - name: Download
+      run : |
+        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7'
       
-    - run : |
-        mkdir n1
-        mv ./'Ethical Hacking [Arabic] Video 11-wDAJYIMtm1U.mp4' ./n1/
-        mv ./'Ethical Hacking [Arabic] Video 15-2l9XzZoLUEQ.mp4' ./n1/
-        mv ./'Ethical Hacking [Arabic] Video 43-TujVtcopviw.mp4' ./n1/
-        mv ./'Ethical Hacking [Arabic] Video 45-Eepodov6bso.mp4' ./n1/
-        cd ./n1/
-        mkdir new
+#     - run : |
+#         mkdir n1
+#         mv ./'Ethical Hacking [Arabic] Video 11-wDAJYIMtm1U.mp4' ./n1/
+#         mv ./'Ethical Hacking [Arabic] Video 15-2l9XzZoLUEQ.mp4' ./n1/
+#         mv ./'Ethical Hacking [Arabic] Video 43-TujVtcopviw.mp4' ./n1/
+#         mv ./'Ethical Hacking [Arabic] Video 45-Eepodov6bso.mp4' ./n1/
+#         cd ./n1/
+#         mkdir new
         
-        for i in *.mp4 ; do
-            ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-            echo "______________________________________________________________________________________________"
-            ls -lh ./new
-        done
+#         for i in *.mp4 ; do
+#             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#             echo "______________________________________________________________________________________________"
+#             ls -lh ./new
+#         done
 
 #     - run : |
 #         mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
@@ -87,8 +84,8 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: _videos0
-        path: ./n1/new/*.mp4
+        name: videos
+        path: ./*.mp4
         
 #     - uses: actions/upload-artifact@v2
 #       if: always()
