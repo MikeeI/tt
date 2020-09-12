@@ -1,8 +1,8 @@
-name: avidemux
+name: android
 
 on:
   push:
-    branches: [master]
+    branches: [android]
 
 jobs:
   prepare:
