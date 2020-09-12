@@ -35,7 +35,7 @@ jobs:
         
     - name: Download
       run : |
-        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7'
+        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLped9VG7STA9Foq9mI5dE6IFUsDxdCHKn'
       
 #     - run : |
 #         mkdir n1
