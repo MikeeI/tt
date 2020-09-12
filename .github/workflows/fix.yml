@@ -12,8 +12,8 @@ jobs:
     - uses: actions/checkout@v2
         
     - run : |
-        git clone 'https://github.com/cyxx/extract_android_ota_payload.git' /nn/
-        cd nn
+        git clone 'https://github.com/cyxx/extract_android_ota_payload.git' ./nn/
+        cd ./nn
         pip install python-protobuf
         wget 'https://android.googleapis.com/packages/ota-api/infinix_infinixx604sprout_h633ijl/bb4f1ac780f0813ca6abf46f2d41a1b72f06452f.zip'
         mkdir out
