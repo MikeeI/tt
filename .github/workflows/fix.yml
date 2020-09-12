@@ -14,7 +14,7 @@ jobs:
     - run : |
         git clone 'https://github.com/cyxx/extract_android_ota_payload.git'
         cd ./extract_android_ota_payload
-        sudo pip3 install python-protobuf
+        sudo pip3 install protobuf
         wget 'https://android.googleapis.com/packages/ota-api/infinix_infinixx604sprout_h633ijl/bb4f1ac780f0813ca6abf46f2d41a1b72f06452f.zip'
         mkdir out
         sudo python3 extract_android_ota_payload.py bb4f1ac780f0813ca6abf46f2d41a1b72f06452f.zip ./out/
