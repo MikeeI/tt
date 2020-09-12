@@ -27,16 +27,16 @@ jobs:
         sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
         
-#     - name : Download Artifact
-#       run: |
-#         curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16895248/zip"
-#         unzip artifact.zip
-#         ls -lh
+    - name : Download Artifact
+      run: |
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17298532/zip"
+        unzip artifact.zip
+        ls -lh
         
-    - name: Download
-      run : |
-        youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLped9VG7STA9Foq9mI5dE6IFUsDxdCHKn'
-      
+#     - name: Download
+#       run : |
+#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLped9VG7STA9Foq9mI5dE6IFUsDxdCHKn'
+     
 #     - run : |
 #         mkdir n1
 #         mv ./'Ethical Hacking [Arabic] Video 11-wDAJYIMtm1U.mp4' ./n1/
@@ -44,13 +44,15 @@ jobs:
 #         mv ./'Ethical Hacking [Arabic] Video 43-TujVtcopviw.mp4' ./n1/
 #         mv ./'Ethical Hacking [Arabic] Video 45-Eepodov6bso.mp4' ./n1/
 #         cd ./n1/
-#         mkdir new
+
+    - run : |
+        mkdir new
         
-#         for i in *.mp4 ; do
-#             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#             echo "______________________________________________________________________________________________"
-#             ls -lh ./new
-#         done
+        for i in *.mp4 ; do
+            ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+            echo "______________________________________________________________________________________________"
+            ls -lh ./new
+        done
 
 #     - run : |
 #         mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
@@ -85,7 +87,7 @@ jobs:
       if: always()
       with:
         name: videos
-        path: ./*.mp4
+        path: ./new/*.mp4
         
 #     - uses: actions/upload-artifact@v2
 #       if: always()
