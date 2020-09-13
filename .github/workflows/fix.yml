@@ -35,7 +35,7 @@ jobs:
         
 #     - name: Download
 #       run : |
-#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 1 --playlist-end 10
+#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 1 --playlist-end 10
       
 #     - run : |
 #         mkdir n1
@@ -153,7 +153,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 1 --playlist-end 10
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 1 --playlist-end 10
 
       - run : |
           mkdir new
@@ -187,7 +187,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 11 --playlist-end 20
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 11 --playlist-end 20
 
       - run : |
           mkdir new
@@ -221,7 +221,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 21 --playlist-end 30
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 21 --playlist-end 30
 
       - run : |
           mkdir new
@@ -255,7 +255,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 31 --playlist-end 40
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 31 --playlist-end 35
 
       - run : |
           mkdir new
@@ -290,7 +290,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 41 --playlist-end 50
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 36 --playlist-end 40
 
       - run : |
           mkdir new
@@ -325,7 +325,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 51 --playlist-end 60
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 41 --playlist-end 44
 
       - run : |
           mkdir new
@@ -360,7 +360,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 61 --playlist-end 70
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj' --playlist-start 45 --playlist-end 47
 
       - run : |
           mkdir new
@@ -395,7 +395,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 71 --playlist-end 80
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=fzkHCqCJ0as'
 
       - run : |
           mkdir new
@@ -430,7 +430,9 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 81 --playlist-end 91
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=4tAN5SpAj_g'
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/watch?v=foToVAIBCTQ'
+
 
       - run : |
           mkdir new
