@@ -23,7 +23,7 @@ jobs:
 #         sudo apt-get install axel
         
     - name : Install Transmission
-      run: sudo apt install transmission
+      run: sudo apt install transmission transmission-cli
         
     - name : Download
       run: |
