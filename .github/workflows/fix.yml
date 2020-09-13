@@ -12,31 +12,31 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name : Install ffmpeg
-      run: |
-        sudo apt-get update
-        sudo apt-get install ffmpeg
+#     - name : Install ffmpeg
+#       run: |
+#         sudo apt-get update
+#         sudo apt-get install ffmpeg
         
     # - name : Install Axel
     #   run: |
     #     sudo apt update
     #     sudo apt-get install axel
         
-    - name : Install Youtube-DL
-      run: |
-        sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-        sudo chmod a+rx /usr/local/bin/youtube-dl
+#     - name : Install Youtube-DL
+#       run: |
+#         sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+#         sudo chmod a+rx /usr/local/bin/youtube-dl
         
-    - name : Download Artifact
-      run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17298532/zip"
-        unzip artifact.zip
-        ls -lh
+#     - name : Download Artifact
+#       run: |
+#         curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16895248/zip"
+#         unzip artifact.zip
+#         ls -lh
         
 #     - name: Download
 #       run : |
-#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLped9VG7STA9Foq9mI5dE6IFUsDxdCHKn'
-     
+#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 1 --playlist-end 10
+      
 #     - run : |
 #         mkdir n1
 #         mv ./'Ethical Hacking [Arabic] Video 11-wDAJYIMtm1U.mp4' ./n1/
@@ -44,15 +44,13 @@ jobs:
 #         mv ./'Ethical Hacking [Arabic] Video 43-TujVtcopviw.mp4' ./n1/
 #         mv ./'Ethical Hacking [Arabic] Video 45-Eepodov6bso.mp4' ./n1/
 #         cd ./n1/
-
-    - run : |
-        mkdir new
+#         mkdir new
         
-        for i in *.mp4 ; do
-            ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-            echo "______________________________________________________________________________________________"
-            ls -lh ./new
-        done
+#         for i in *.mp4 ; do
+#             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+#             echo "______________________________________________________________________________________________"
+#             ls -lh ./new
+#         done
 
 #     - run : |
 #         mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
@@ -79,15 +77,15 @@ jobs:
     #         ls -lh ./new
     #     done
       
-    - run: ls -lRh
-      continue-on-error: true
-      if: always()
+#     - run: ls -lRh
+#       continue-on-error: true
+#       if: always()
         
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos
-        path: ./new/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos
+#         path: ./*.mp4
         
 #     - uses: actions/upload-artifact@v2
 #       if: always()
@@ -138,265 +136,312 @@ jobs:
 #         path: ./n9/*.mp4
 
                 
-#   part_1:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos1
+  part_1:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 1 --playlist-end 10
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos1
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos1
+          path: ./new/*.mp4
 
                 
-#   part_2:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos2
-        
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
-      
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos2
-#           path: ./new/*.mp4
+  part_2:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
 
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
 
-                
-#   part_3:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos3
-        
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 11 --playlist-end 20
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos3
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos2
+          path: ./new/*.mp4
 
 
                 
-#   part_4:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos4
+  part_3:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
-      
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos4
-#           path: ./new/*.mp4
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
 
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 21 --playlist-end 30
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos3
+          path: ./new/*.mp4
 
 
                 
-#   part_5:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos5
+  part_4:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 31 --playlist-end 40
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos5
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos4
+          path: ./new/*.mp4
 
 
 
                 
-#   part_6:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos6
+  part_5:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 41 --playlist-end 50
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos6
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos5
+          path: ./new/*.mp4
 
 
 
                 
-#   part_7:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos7
+  part_6:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 51 --playlist-end 60
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos7
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos6
+          path: ./new/*.mp4
 
 
 
                 
-#   part_8:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos8
+  part_7:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 61 --playlist-end 70
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos8
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos7
+          path: ./new/*.mp4
 
 
 
                 
-#   part_9:
-#     runs-on: ubuntu-20.04
-#     needs: [prepare]
-#     steps:
-#       - uses: actions/download-artifact@v2
-#         with:
-#           name: videos9
+  part_8:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
         
-#       - name : Install ffmpeg
-#         run: |
-#           sudo apt-get update
-#           sudo apt-get install ffmpeg
-        
-#       - run : |
-#           mkdir new
-#           for i in *.mp4 ; do
-#               ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#               echo "______________________________________________________________________________________________"
-#               ls -lh ./new
-#           done
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 71 --playlist-end 80
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
       
-#       - uses: actions/upload-artifact@v2
-#         if: always()
-#         with:
-#           name: _videos9
-#           path: ./new/*.mp4
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos8
+          path: ./new/*.mp4
+
+
+
+                
+  part_9:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 81 --playlist-end 91
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos9
+          path: ./new/*.mp4
