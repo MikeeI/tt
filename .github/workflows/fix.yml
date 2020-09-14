@@ -23,15 +23,16 @@ jobs:
 #         sudo apt-get install axel
 
     - name : Install Transmission
-      run: sudo apt install transmission transmission-cli
+      run: sudo apt install aria2
 
 
     - name : Download
       run: |
         cd /
-        sudo wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
         sudo mkdir new
-        sudo transmission-cli -D -u 0 -w ./new/ 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
+        sudo wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
+        aria2c -S 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
+        sudo aria2c --select-file=1 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
         
         
 #     - run : |
