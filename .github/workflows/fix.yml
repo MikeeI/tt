@@ -5,57 +5,22 @@ on:
     branches: [torrent]
 
 jobs:
-  prepare:
+  FOR500:
 
     runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
 
-#     - name : Install ffmpeg
-#       run: |
-#         sudo apt-get update
-#         sudo apt-get install ffmpeg
-        
-#     - name : Install Axel
-#       run: |
-#         sudo apt update
-#         sudo apt-get install axel
-
     - name : Install aria2
       run: sudo apt install aria2
-
 
     - name : Download
       run: |
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=7798-7801 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
-        
-        
-#     - run : |
-#         df -h
-#         wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
-#         sudo cp 'ubuntu-20.04.1-live-server-amd64.iso.torrent' /
-#         cd /
-        
-#     - name : Install Transmission
-#       run: sudo apt install ctorrent
-
-
-#     - name : Download
-#       run: |
-#         cd /
-#         ls -l
-#         sudo mkdir new
-#         sudo ctorrent 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
-        
-#         for i in *.mp4 ; do
-#             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#             echo "______________________________________________________________________________________________"
-#             ls -lh ./new
-#         done
+        sudo aria2c --seed-time=0 --select-file=47-663 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
     - run: ls -lRh /new/
       continue-on-error: true
@@ -64,5 +29,123 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: SEC760
+        name: FOR500
         path: "/new/sans/*"
+
+
+
+  FOR508:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=663-694 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: FOR508
+        path: "/new/sans/*"
+
+
+
+  FOR526:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=702-1506 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: FOR526
+        path: "/new/sans/*"
+
+
+
+  FOR585:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=1520-1524 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: FOR585
+        path: "/new/sans/*"
+
+
+
+  FOR610:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=1526-1542 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: FOR610
+        path: "/new/sans/*"
+
+
