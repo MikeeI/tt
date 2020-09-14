@@ -64,5 +64,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: videos
-        path: "/new/sans/*.*"
+        name: SEC760
+        path: "/new/sans/*"
