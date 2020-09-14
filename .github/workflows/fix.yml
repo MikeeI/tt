@@ -28,15 +28,15 @@ jobs:
 
     - run : |
         df -h
-        cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /
         cd /
 
     - name : Download
       run: |
         cd /
         ls -l
-        mkdir new
-        transmission-cli -D -u 0 -w ./new/ '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo mkdir new
+        sudo transmission-cli -D -u 0 -w ./new/ '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
         
 #         for i in *.mp4 ; do
 #             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
