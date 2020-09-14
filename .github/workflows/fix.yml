@@ -36,7 +36,7 @@ jobs:
         cd /
         ls -l
         sudo mkdir new
-        sudo ctorrent -v -U 0 -n 2806-2900 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo ctorrent '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
         
 #         for i in *.mp4 ; do
 #             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
