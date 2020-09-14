@@ -22,22 +22,34 @@ jobs:
 #         sudo apt update
 #         sudo apt-get install axel
 
-    - run : |
-        df -h
-        wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
-        sudo cp 'ubuntu-20.04.1-live-server-amd64.iso.torrent' /
-        cd /
-        
     - name : Install Transmission
-      run: sudo apt install ctorrent
+      run: sudo apt install transmission transmission-cli
 
 
     - name : Download
       run: |
         cd /
-        ls -l
+        sudo wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
         sudo mkdir new
-        sudo ctorrent 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
+        sudo transmission-cli -D -u 0 -w ./new/ 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
+        
+        
+#     - run : |
+#         df -h
+#         wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
+#         sudo cp 'ubuntu-20.04.1-live-server-amd64.iso.torrent' /
+#         cd /
+        
+#     - name : Install Transmission
+#       run: sudo apt install ctorrent
+
+
+#     - name : Download
+#       run: |
+#         cd /
+#         ls -l
+#         sudo mkdir new
+#         sudo ctorrent 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
         
 #         for i in *.mp4 ; do
 #             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
@@ -45,7 +57,7 @@ jobs:
 #             ls -lh ./new
 #         done
 
-    - run: ls -lRh
+    - run: ls -lRh /new/
       continue-on-error: true
       if: always()
         
