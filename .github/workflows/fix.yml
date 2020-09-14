@@ -21,15 +21,15 @@ jobs:
 #       run: |
 #         sudo apt update
 #         sudo apt-get install axel
-        
-#     - name : Install Transmission
-#       run: sudo apt install transmission transmission-cli
-
 
     - run : |
         df -h
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /
         cd /
+        
+    - name : Install Transmission
+      run: sudo apt install transmission transmission-cli
+
 
     - name : Download
       run: |
