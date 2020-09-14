@@ -31,7 +31,7 @@ jobs:
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=7797-7801 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=7798-7801 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
         
         
 #     - run : |
@@ -61,10 +61,10 @@ jobs:
       continue-on-error: true
       if: always()
         
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos
-#         path: ./new/*.mp4
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: videos
+        path: "/new/sans/SEC760 - Advanced Exploit Development for Penetration Testers/text/2019/*.*"
 
 
