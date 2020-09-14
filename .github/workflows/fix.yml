@@ -24,7 +24,8 @@ jobs:
 
     - run : |
         df -h
-        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /
+        wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
+        sudo cp 'ubuntu-20.04.1-live-server-amd64.iso.torrent' /
         cd /
         
     - name : Install Transmission
@@ -36,7 +37,7 @@ jobs:
         cd /
         ls -l
         sudo mkdir new
-        sudo ctorrent '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo ctorrent 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
         
 #         for i in *.mp4 ; do
 #             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
