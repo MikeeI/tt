@@ -7,7 +7,7 @@ on:
 jobs:
   prepare:
 
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
@@ -24,11 +24,19 @@ jobs:
         
 #     - name : Install Transmission
 #       run: sudo apt install transmission transmission-cli
-        
-#     - name : Download
-#       run: |
-#         mkdir new
-#         transmission-cli -D -u 0 -w ./new/ '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+
+    - run : |
+        df -h
+        cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /
+        cd /
+
+    - name : Download
+      run: |
+        cd /
+        ls -l
+        mkdir new
+        transmission-cli -D -u 0 -w ./new/ '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
         
 #         for i in *.mp4 ; do
 #             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
@@ -36,9 +44,7 @@ jobs:
 #             ls -lh ./new
 #         done
 
-    - run: |
-        df -h
-        ls -lRh
+    - run: ls -lRh
       continue-on-error: true
       if: always()
         
