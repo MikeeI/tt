@@ -121,7 +121,7 @@ jobs:
 
 
 
-  SEC505:
+  SEC506:
 
     runs-on: ubuntu-20.04
 
@@ -145,7 +145,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: SEC505
+        name: SEC506
         path: "/new/sans/*"
 
 
