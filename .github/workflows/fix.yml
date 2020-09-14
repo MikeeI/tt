@@ -5,7 +5,7 @@ on:
     branches: [torrent]
 
 jobs:
-  FOR500:
+  SEC401:
 
     runs-on: ubuntu-20.04
 
@@ -20,7 +20,7 @@ jobs:
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=47-663 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
     - run: ls -lRh /new/
       continue-on-error: true
@@ -29,12 +29,12 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: FOR500
+        name: SEC401
         path: "/new/sans/*"
 
 
 
-  FOR508:
+  SEC503:
 
     runs-on: ubuntu-20.04
 
@@ -49,7 +49,7 @@ jobs:
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=663-694 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=2807-3648 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
     - run: ls -lRh /new/
       continue-on-error: true
@@ -58,12 +58,12 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: FOR508
+        name: SEC503
         path: "/new/sans/*"
 
 
 
-  FOR526:
+  SEC504:
 
     runs-on: ubuntu-20.04
 
@@ -78,7 +78,7 @@ jobs:
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=702-1506 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=3650-4549 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
     - run: ls -lRh /new/
       continue-on-error: true
@@ -87,12 +87,12 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: FOR526
+        name: SEC504
         path: "/new/sans/*"
 
 
 
-  FOR585:
+  SEC505:
 
     runs-on: ubuntu-20.04
 
@@ -107,7 +107,7 @@ jobs:
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=1520-1524 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=4551-4900 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
     - run: ls -lRh /new/
       continue-on-error: true
@@ -116,12 +116,12 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: FOR585
+        name: SEC505
         path: "/new/sans/*"
 
 
 
-  FOR610:
+  SEC505:
 
     runs-on: ubuntu-20.04
 
@@ -136,7 +136,7 @@ jobs:
         sudo mkdir /new
         sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
         cd /new
-        sudo aria2c --seed-time=0 --select-file=1526-1542 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=4902-4978 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
     - run: ls -lRh /new/
       continue-on-error: true
@@ -145,7 +145,205 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: FOR610
+        name: SEC505
         path: "/new/sans/*"
 
 
+  SEC542:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=4989-5037 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC542
+        path: "/new/sans/*"
+
+
+
+  SEC560:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=5053-5910 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC560
+        path: "/new/sans/*"
+
+
+  SEC575:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=6182-6885 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC575
+        path: "/new/sans/*"
+
+
+  SEC580:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=6894-6899 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC580
+        path: "/new/sans/*"
+
+
+  SEC617:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=6923-6949 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC617
+        path: "/new/sans/*"
+
+
+
+  SEC642:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=6951-7755 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC642
+        path: "/new/sans/*"
+
+
+
+
+  SEC660:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name : Install aria2
+      run: sudo apt install aria2
+
+    - name : Download
+      run: |
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+        cd /new
+        sudo aria2c --seed-time=0 --select-file=7757-7796 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC660
+        path: "/new/sans/*"
