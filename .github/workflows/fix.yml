@@ -22,18 +22,17 @@ jobs:
 #         sudo apt update
 #         sudo apt-get install axel
 
-    - name : Install Transmission
+    - name : Install aria2
       run: sudo apt install aria2
 
 
     - name : Download
       run: |
-        cd /
-        sudo mkdir new
-        cd new
-        sudo wget https://releases.ubuntu.com/20.04/ubuntu-20.04.1-live-server-amd64.iso.torrent
-        sudo aria2c -S 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
-        sudo aria2c --seed-time=0 --select-file=1 'ubuntu-20.04.1-live-server-amd64.iso.torrent'
+        sudo mkdir /new
+        sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /
+        cd /new
+        sudo aria2c -S '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        sudo aria2c --seed-time=0 --select-file=7797-7801 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
         
         
 #     - run : |
