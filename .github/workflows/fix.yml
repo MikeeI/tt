@@ -22,13 +22,13 @@ jobs:
 #         sudo apt update
 #         sudo apt-get install axel
         
-    - name : Install Transmission
-      run: sudo apt install transmission transmission-cli
+#     - name : Install Transmission
+#       run: sudo apt install transmission transmission-cli
         
-    - name : Download
-      run: |
-        mkdir new
-        transmission-cli -D -u 0 -w ./new/ '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+#     - name : Download
+#       run: |
+#         mkdir new
+#         transmission-cli -D -u 0 -w ./new/ '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
         
 #         for i in *.mp4 ; do
 #             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
@@ -36,14 +36,16 @@ jobs:
 #             ls -lh ./new
 #         done
 
-    - run: ls -lRh
+    - run: |
+        df -h
+        ls -lRh
       continue-on-error: true
       if: always()
         
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: videos
-        path: ./new/*.mp4
+#     - uses: actions/upload-artifact@v2
+#       if: always()
+#       with:
+#         name: videos
+#         path: ./new/*.mp4
 
 
