@@ -24,9 +24,10 @@ jobs:
 
     - name: Download Artifact
       run: |
-        sudo mkdir -p /new/sans
-        sudo cd /new/sans
-        sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
+        su
+        mkdir -p /new/sans
+        cd /new/sans
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
         unzip artifact.zip
         rm artifact.zip
         ls -lh
