@@ -75,7 +75,7 @@ jobs:
                 for j in *.webm ; do
                     sudo ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j.mp4"
                     sudo rm "$j"
-                    sudo mv "./new/$j" .
+                    sudo mv "./new/$j.mp4" .
                     echo "________________________________________________________________"
                 done
                 
