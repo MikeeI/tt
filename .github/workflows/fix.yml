@@ -2,446 +2,412 @@ name: avidemux
 
 on:
   push:
-    branches: [master]
+    branches: [test]
 
 jobs:
-  prepare:
+  SEC401:
 
     runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
 
-#     - name : Install ffmpeg
-#       run: |
-#         sudo apt-get update
-#         sudo apt-get install ffmpeg
-        
-    # - name : Install Axel
+    # - name : Install aria2
+    #   run: sudo apt install aria2
+
+    # - name : Download
     #   run: |
-    #     sudo apt update
-    #     sudo apt-get install axel
+    #     sudo mkdir /new
+    #     sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+    #     cd /new
+    #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+    - name: Download Artifact
+      run: |
+        sudo mkdir -p /new/sans
+        sudo cd /new/sans
+        sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
+        unzip artifact.zip
+        rm artifact.zip
+        ls -lh
+        echo "__________________________________________________________"
+        secondDir=(`ls`)
+        secondDir="${secondDir[1]}"
+        rm -r "$secondDir"
+        ls -lh
+
+
+    - name: Compress
+      run : |
+        su
+        cd /new
+
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
+
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+            if [[ $mp4FilesCount != 0 && $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j"
+                    rm "$j"
+                    mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+                
+                for j in *.webm ; do
+                    ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j.mp4"
+                    rm "$j"
+                    mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+                
+                rmdir "./new"
+            fi
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-#     - name : Install Youtube-DL
-#       run: |
-#         sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-#         sudo chmod a+rx /usr/local/bin/youtube-dl
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: SEC401
+        path: "/new/sans/*"
+
+
+
+  # SEC503:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=2807-3648 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-#     - name : Download Artifact
-#       run: |
-#         curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/16895248/zip"
-#         unzip artifact.zip
-#         ls -lh
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC503
+  #       path: "/new/sans/*"
+
+
+
+  # SEC504:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=3650-4549 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-#     - name: Download
-#       run : |
-#         youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 1 --playlist-end 10
-      
-#     - run : |
-#         mkdir n1
-#         mv ./'Ethical Hacking [Arabic] Video 11-wDAJYIMtm1U.mp4' ./n1/
-#         mv ./'Ethical Hacking [Arabic] Video 15-2l9XzZoLUEQ.mp4' ./n1/
-#         mv ./'Ethical Hacking [Arabic] Video 43-TujVtcopviw.mp4' ./n1/
-#         mv ./'Ethical Hacking [Arabic] Video 45-Eepodov6bso.mp4' ./n1/
-#         cd ./n1/
-#         mkdir new
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC504
+  #       path: "/new/sans/*"
+
+
+
+  # SEC505:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=4551-4900 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-#         for i in *.mp4 ; do
-#             ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-#             echo "______________________________________________________________________________________________"
-#             ls -lh ./new
-#         done
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC505
+  #       path: "/new/sans/*"
 
-#     - run : |
-#         mkdir n1 n2 n3 n4 n5 n6 n7 n8 n9
-#         ls -lh
-#         SAVEIFS=$IFS
-#         IFS=$(echo -en "\n\b")
-#         mv `find . -maxdepth 1 -not -type d | head -4` ./n1/
-#         mv `find . -maxdepth 1 -not -type d | head -3` ./n2/
-#         mv `find . -maxdepth 1 -not -type d | head -2` ./n3/
-#         mv `find . -maxdepth 1 -not -type d | head -7` ./n4/
-#         mv `find . -maxdepth 1 -not -type d | head -8` ./n5/
-#         mv `find . -maxdepth 1 -not -type d | head -5` ./n6/
-#         mv `find . -maxdepth 1 -not -type d | head -5` ./n7/
-#         mv `find . -maxdepth 1 -not -type d | head -5` ./n8/
-#         mv `find . -maxdepth 1 -not -type d | head -5` ./n9/
-#         IFS=$SAVEIFS
-#         echo "______________________________________"
-#         ls -lRh
-      
-    # - run : |
-    #     for i in *.mp4 ; do
-    #         ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-    #         echo "______________________________________________________________________________________________"
-    #         ls -lh ./new
-    #     done
-      
-#     - run: ls -lRh
-#       continue-on-error: true
-#       if: always()
+
+
+  # SEC506:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=4902-4978 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos
-#         path: ./*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC506
+  #       path: "/new/sans/*"
+
+
+  # SEC542:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=4989-5037 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos2
-#         path: ./n2/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos3
-#         path: ./n3/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos4
-#         path: ./n4/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos5
-#         path: ./n5/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos6
-#         path: ./n6/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos7
-#         path: ./n7/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos8
-#         path: ./n8/*.mp4
-                
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos9
-#         path: ./n9/*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC542
+  #       path: "/new/sans/*"
 
-                
-  part_1:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
 
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+
+  # SEC560:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=5053-5910 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC560
+  #       path: "/new/sans/*"
 
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 51 --playlist-end 55
 
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos1
-          path: ./new/*.mp4
+  # SEC575:
 
-                
-  part_2:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
+  #   runs-on: ubuntu-20.04
 
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=6182-6885 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 56 --playlist-end 60
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos2
-          path: ./new/*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC575
+  #       path: "/new/sans/*"
 
 
-                
-  part_3:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+  # SEC580:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=6894-6899 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 61 --playlist-end 65
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos3
-          path: ./new/*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC580
+  #       path: "/new/sans/*"
 
 
-                
-  part_4:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+  # SEC617:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=6923-6949 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 66 --playlist-end 70
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos4
-          path: ./new/*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC617
+  #       path: "/new/sans/*"
 
 
 
-                
-  part_5:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+  # SEC642:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=6951-7755 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 71 --playlist-end 75
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos5
-          path: ./new/*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC642
+  #       path: "/new/sans/*"
 
 
 
-                
-  part_6:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
+
+  # SEC660:
+
+  #   runs-on: ubuntu-20.04
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+
+  #   - name : Install aria2
+  #     run: sudo apt install aria2
+
+  #   - name : Download
+  #     run: |
+  #       sudo mkdir /new
+  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+  #       cd /new
+  #       sudo aria2c --seed-time=0 --select-file=7757-7796 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+  #   - run: ls -lRh /new/
+  #     continue-on-error: true
+  #     if: always()
         
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 76 --playlist-end 80
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos6
-          path: ./new/*.mp4
-
-
-
-                
-  part_7:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
-        
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 81 --playlist-end 85
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos7
-          path: ./new/*.mp4
-
-
-
-                
-  part_8:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
-        
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 86 --playlist-end 89
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos8
-          path: ./new/*.mp4
-
-
-
-                
-  part_9:
-    runs-on: ubuntu-20.04
-    needs: [prepare]
-    steps:
-      - name : Install ffmpeg
-        run: |
-          sudo apt-get update
-          sudo apt-get install ffmpeg
-        
-      - name : Install Youtube-DL
-        run: |
-          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
-          sudo chmod a+rx /usr/local/bin/youtube-dl
-
-      - name : Download
-        run : |
-          youtube-dl -R 1000 -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' --playlist-start 90 --playlist-end 91
-
-      - run : |
-          mkdir new
-          for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
-              echo "______________________________________________________________________________________________"
-              ls -lh ./new
-          done
-      
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: _videos9
-          path: ./new/*.mp4
+  #   - uses: actions/upload-artifact@v2
+  #     if: always()
+  #     with:
+  #       name: SEC660
+  #       path: "/new/sans/*"
