@@ -12,17 +12,26 @@ jobs:
     steps:
     - name: Download Artifact
       run: |
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17024064/zip"
+        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17450475/zip"
         ls -la
         
-    - name : Fix
-      run: |
-        split -b 146456568 -d -a 3 artifact.zip cut_part
-        rm cut_part000
-        ls -la
-        cat cut_part* > cut_all4
-        ls -la
+        
+    - run : |
+        unzip artifact.zip
         
     - uses: actions/upload-artifact@v2
       with:
-        path: cut_all4
+        path: './FOR585 - Advanced Smartphone Forensics/text/2017/Android Forensics.pdf'
+
+
+#     - name : Fix
+#       run: |
+#         split -b 146456568 -d -a 3 artifact.zip cut_part
+#         rm cut_part000
+#         ls -la
+#         cat cut_part* > cut_all4
+#         ls -la
+#         
+#     - uses: actions/upload-artifact@v2
+#       with:
+#         path: cut_all4
