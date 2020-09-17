@@ -71,8 +71,8 @@ jobs:
             echo "Current Folder is $i"
 
             mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-            if [[ $mp4FilesCount != 0 || $webmFilesCount != 0 ]]; then
+
+            if [[ $mp4FilesCount != 0 ]]; then
                 if [[ ! -d "new" ]]; then
                     sudo mkdir "new"
                 fi
@@ -83,6 +83,17 @@ jobs:
                     sudo mv "./new/$j" .
                     echo "________________________________________________________________"
                 done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
                 
                 for j in *.webm ; do
                     sudo ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j.mp4"
@@ -90,9 +101,10 @@ jobs:
                     sudo mv "./new/$j.mp4" .
                     echo "________________________________________________________________"
                 done
-                
+
                 sudo rmdir "./new"
             fi
+                
 
         done
 
@@ -422,3 +434,4 @@ jobs:
   #     with:
   #       name: SEC660
   #       path: "/new/sans/*"
+
