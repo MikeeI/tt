@@ -67,7 +67,7 @@ jobs:
 
             mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
             webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-            if [[ $mp4FilesCount != 0 && $webmFilesCount != 0 ]]; then
+            if [[ $mp4FilesCount != 0 || $webmFilesCount != 0 ]]; then
                 if [[ ! -d "new" ]]; then
                     sudo mkdir "new"
                 fi
