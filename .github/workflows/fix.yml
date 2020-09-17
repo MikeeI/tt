@@ -31,9 +31,16 @@ jobs:
         sudo rm artifact.zip
         ls -lh
         echo "__________________________________________________________"
+        
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
+
         secondDir=(`ls`)
         secondDir="${secondDir[1]}"
         sudo rm -r "$secondDir"
+        
+        IFS=$SAVEIFS
+        
         ls -lh
 
 
