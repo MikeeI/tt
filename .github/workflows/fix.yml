@@ -22,6 +22,11 @@ jobs:
     #     cd /new
     #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
+
+
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
+
     - name: Download Artifact
       run: |
         sudo mkdir -p /new/sans
