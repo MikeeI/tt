@@ -24,23 +24,21 @@ jobs:
 
     - name: Download Artifact
       run: |
-        su
-        mkdir -p /new/sans
+        sudo mkdir -p /new/sans
         cd /new/sans
-        curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
-        unzip artifact.zip
-        rm artifact.zip
+        sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
+        sudo unzip artifact.zip
+        sudo rm artifact.zip
         ls -lh
         echo "__________________________________________________________"
         secondDir=(`ls`)
         secondDir="${secondDir[1]}"
-        rm -r "$secondDir"
+        sudo rm -r "$secondDir"
         ls -lh
 
 
     - name: Compress
       run : |
-        su
         cd /new
 
         SAVEIFS=$IFS # Save the File separator to restore it later
@@ -64,24 +62,24 @@ jobs:
             webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
             if [[ $mp4FilesCount != 0 && $webmFilesCount != 0 ]]; then
                 if [[ ! -d "new" ]]; then
-                    mkdir "new"
+                    sudo mkdir "new"
                 fi
 
                 for j in *.mp4 ; do
-                    ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j"
-                    rm "$j"
-                    mv "./new/$j" .
+                    sudo ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
                     echo "________________________________________________________________"
                 done
                 
                 for j in *.webm ; do
-                    ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j.mp4"
-                    rm "$j"
-                    mv "./new/$j" .
+                    sudo ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
                     echo "________________________________________________________________"
                 done
                 
-                rmdir "./new"
+                sudo rmdir "./new"
             fi
 
         done
