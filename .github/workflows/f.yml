@@ -21,7 +21,7 @@ jobs:
         
     - uses: actions/upload-artifact@v2
       with:
-        path: './FOR585 - Advanced Smartphone Forensics/text/2017/Android Forensics.pdf'
+        path: './FOR585 - Advanced Smartphone Forensics/text/2017/FOR585.2 Android Forensics.pdf'
 
 
 #     - name : Fix
