@@ -78,7 +78,7 @@ jobs:
                 fi
 
                 for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j"
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                     sudo rm "$j"
                     sudo mv "./new/$j" .
                     echo "________________________________________________________________"
@@ -96,7 +96,7 @@ jobs:
                 fi
                 
                 for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v hevc_nvenc -rc constqp -qp 32 -c:a copy "./new/$j.mp4"
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
                     sudo rm "$j"
                     sudo mv "./new/$j.mp4" .
                     echo "________________________________________________________________"
