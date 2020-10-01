@@ -50,7 +50,6 @@ jobs:
           IFS=$(echo -en "\n\b") # New file separator
           arr=(`find -type d`)
           dir=`pwd`
-          IFS=$SAVEIFS
 
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'" # Convert Relative Paths into Absolute Paths, and add quote around path
@@ -64,7 +63,6 @@ jobs:
               if [[ ${#files[@]} != 0 ]]; then
                   for j in "${files[@]}" ; do
                       new_name=`echo ${i:1:-1}${j:2} | sed 's/\//_-_/g'`
-                      j="'$j'"
                       sudo mv "$j" "$new_name"
                   done
               fi
@@ -91,7 +89,7 @@ jobs:
                   sudo mv "${files[0]}" "$i"
               done
           done
-        
+          IFS=$SAVEIFS
 
       - run: ls -lRh /new/
         continue-on-error: true
