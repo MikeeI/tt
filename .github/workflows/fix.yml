@@ -5,12 +5,9 @@ on:
     branches: [test]
 
 jobs:
-  SEC401:
+  prepare:
 
     runs-on: ubuntu-20.04
-
-    steps:
-    - uses: actions/checkout@v2
 
     # - name : Install aria2
     #   run: sudo apt install aria2
@@ -22,10 +19,6 @@ jobs:
     #     cd /new
     #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
-
-
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
 
     - name: Download Artifact
       run: |
@@ -39,7 +32,6 @@ jobs:
         
         SAVEIFS=$IFS # Save the File separator to restore it later
         IFS=$(echo -en "\n\b") # New file separator
-
         secondDir=(`ls`)
         secondDir="${secondDir[1]}"
         sudo rm -r "$secondDir"
@@ -48,6 +40,116 @@ jobs:
         
         ls -lh
 
+
+    - name: Group Files
+      run: |
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+        for i in "${arr[@]}" ; do
+            eval "cd $i"
+            mp4FilesCount=`ls -1 *.* 2>/dev/null | wc -l`
+            if [[ $mp4FilesCount != 0 ]]; then
+                for j in *.* ; do
+                    new_name=`echo ${i:1:-1}$j | sed 's/\//-_-/g'`
+                    sudo mv "$j" "$new_name"
+                done
+            fi
+        done
+
+        cd /new/
+        find . -type d -exec sudo mv {} .
+        sudo rm -r ./sans/
+
+        sudo mkdir d1 d2 d3 d4 d5 d6 d7 d8
+
+        dirs=("d1" "d2" "d3" "d4" "d5" "d6" "d7" "d8")
+
+        flag=1
+        while [[ "$flag" == 1 ]] ; do
+            for i in "${dirs[@]}" ; do
+                files=(`find . -maxdepth 1 -type f`)
+                if [[ "${#files[@]}" == 0 ]] ; then
+                    flag=0
+                    break
+                fi
+                sudo mv "${files[0]}" "$i"
+            done
+        done
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
+        
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d1
+        path: "/new/d1/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d2
+        path: "/new/d2/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d3
+        path: "/new/d3/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d4
+        path: "/new/d4/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d5
+        path: "/new/d5/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d6
+        path: "/new/d6/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d7
+        path: "/new/d7/*"
+
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: d8
+        path: "/new/d8/*"
+
+
+  d1:
+
+    needs: [prepare]
+    runs-on: ubuntu-20.04
+
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d1
+        path: /new/
 
     - name: Compress
       run : |
@@ -116,322 +218,705 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: SEC401
-        path: "/new/sans/*"
+        name: _d1
+        path: "/new/*"
 
 
+  d2:
 
-  # SEC503:
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   runs-on: ubuntu-20.04
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d2
+        path: /new/
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=2807-3648 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC503
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d2
+        path: "/new/*"
 
 
+  d3:
 
-  # SEC504:
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   runs-on: ubuntu-20.04
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d3
+        path: /new/
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=3650-4549 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC504
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d3
+        path: "/new/*"
 
 
+  d4:
 
-  # SEC505:
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   runs-on: ubuntu-20.04
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d4
+        path: /new/
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=4551-4900 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC505
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d4
+        path: "/new/*"
 
 
+  d5:
 
-  # SEC506:
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   runs-on: ubuntu-20.04
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d5
+        path: /new/
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=4902-4978 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC506
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d5
+        path: "/new/*"
 
 
-  # SEC542:
+  d6:
 
-  #   runs-on: ubuntu-20.04
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d6
+        path: /new/
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=4989-5037 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
+
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC542
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d6
+        path: "/new/*"
 
 
+  d7:
 
-  # SEC560:
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   runs-on: ubuntu-20.04
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d7
+        path: /new/
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=5053-5910 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC560
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d7
+        path: "/new/*"
 
 
-  # SEC575:
+  d8:
 
-  #   runs-on: ubuntu-20.04
+    needs: [prepare]
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Install ffmpeg
+      run: sudo apt install ffmpeg
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: d8
+        path: /new/
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=6182-6885 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+    - name: Compress
+      run : |
+        cd /new
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
+
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            eval "cd $i"
+            echo "Current Folder is $i"
+
+            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+            if [[ $mp4FilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+
+                for j in *.mp4 ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                    sudo rm "$j"
+                    sudo mv "./new/$j" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+
+            fi
+
+            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+            if [[ $webmFilesCount != 0 ]]; then
+                if [[ ! -d "new" ]]; then
+                    sudo mkdir "new"
+                fi
+                
+                for j in *.webm ; do
+                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                    sudo rm "$j"
+                    sudo mv "./new/$j.mp4" .
+                    echo "________________________________________________________________"
+                done
+
+                sudo rmdir "./new"
+            fi
+                
+
+        done
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC575
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: _d8
+        path: "/new/*"
 
 
-  # SEC580:
+  combine:
 
-  #   runs-on: ubuntu-20.04
+    needs: [d1 , d2 , d3 , d4 , d5 , d6 , d7 , d8]
+    runs-on: ubuntu-20.04
 
-  #   steps:
-  #   - uses: actions/checkout@v2
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d1
+        path: /new/
 
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
 
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=6894-6899 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d2
+        path: /new/
 
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d3
+        path: /new/
+
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d4
+        path: /new/
+
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d5
+        path: /new/
+
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d6
+        path: /new/
+
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d7
+        path: /new/
+
+
+    - name : Download
+      uses: actions/download-artifact@v2
+      with:
+        name: _d8
+        path: /new/
+
+
+
+    - name: Combine
+      run : |
+        cd /new
+
+        SAVEIFS=$IFS # Save the File separator to restore it later
+        IFS=$(echo -en "\n\b") # New file separator
+
+        arr=(`find -type d`)
+        dir=`pwd`
+        IFS=$SAVEIFS
+
+        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+            arr[i]="'${dir}${arr[i]:1}/'"
+        done
+
+
+        for i in "${arr[@]}" ; do
+
+            fullfilename=`echo ${i:1:-1}$j | sed 's/-_-/\//g'`
+            dirname=`dirname $fullfilename`
+
+            if [[ ! -d "$dirname" ]]; then
+                sudo mkdir -p "$dirname"
+            fi
+
+            sudo mv "$i"  "$fullfilename"
+
+        done
+
+
+
+    - run: ls -lRh /new/
+      continue-on-error: true
+      if: always()
         
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC580
-  #       path: "/new/sans/*"
-
-
-  # SEC617:
-
-  #   runs-on: ubuntu-20.04
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
-
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=6923-6949 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
-
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
-        
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC617
-  #       path: "/new/sans/*"
-
-
-
-  # SEC642:
-
-  #   runs-on: ubuntu-20.04
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
-
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=6951-7755 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
-
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
-        
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC642
-  #       path: "/new/sans/*"
-
-
-
-
-  # SEC660:
-
-  #   runs-on: ubuntu-20.04
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name : Install aria2
-  #     run: sudo apt install aria2
-
-  #   - name : Download
-  #     run: |
-  #       sudo mkdir /new
-  #       sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-  #       cd /new
-  #       sudo aria2c --seed-time=0 --select-file=7757-7796 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
-
-  #   - run: ls -lRh /new/
-  #     continue-on-error: true
-  #     if: always()
-        
-  #   - uses: actions/upload-artifact@v2
-  #     if: always()
-  #     with:
-  #       name: SEC660
-  #       path: "/new/sans/*"
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: all
+        path: "/new/*"
 
