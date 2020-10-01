@@ -44,6 +44,8 @@ jobs:
 
       - name: Group Files
         run: |
+          cd /new/sans/
+          
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
           arr=(`find -type d`)
@@ -58,7 +60,7 @@ jobs:
               mp4FilesCount=`ls -1 *.* 2>/dev/null | wc -l`
               if [[ $mp4FilesCount != 0 ]]; then
                   for j in *.* ; do
-                      new_name=`echo ${i:1:-1}$j | sed 's/\//-_-/g'`
+                      new_name=`echo ${i:1:-1}$j | sed 's/\//_-_/g'`
                       sudo mv "$j" "$new_name"
                   done
               fi
@@ -146,7 +148,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -232,7 +236,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -318,7 +324,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -404,7 +412,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -490,7 +500,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -576,7 +588,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -662,7 +676,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -748,7 +764,9 @@ jobs:
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
-
+        
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -832,6 +850,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
 
+      - run: sudo mkdir /new/
+        
       - name : Download
         uses: actions/download-artifact@v2
         with:
@@ -906,7 +926,7 @@ jobs:
 
           for i in "${arr[@]}" ; do
 
-              fullfilename=`echo ${i:1:-1}$j | sed 's/-_-/\//g'`
+              fullfilename=`echo ${i:1:-1}$j | sed 's/_-_/\//g'`
               dirname=`dirname $fullfilename`
 
               if [[ ! -d "$dirname" ]]; then
