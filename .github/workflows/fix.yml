@@ -154,17 +154,17 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d1
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
-          cd /new
+          cd ./new
 
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
@@ -222,7 +222,7 @@ jobs:
           done
 
 
-      - run: ls -lRh /new/
+      - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
           
@@ -230,7 +230,7 @@ jobs:
         if: always()
         with:
           name: _d1
-          path: "/new/*"
+          path: "./new/*"
 
 
   d2:
@@ -242,13 +242,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d2
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -318,7 +318,7 @@ jobs:
         if: always()
         with:
           name: _d2
-          path: "/new/*"
+          path: "./new/*"
 
 
   d3:
@@ -330,13 +330,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d3
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -406,7 +406,7 @@ jobs:
         if: always()
         with:
           name: _d3
-          path: "/new/*"
+          path: "./new/*"
 
 
   d4:
@@ -418,13 +418,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d4
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -494,7 +494,7 @@ jobs:
         if: always()
         with:
           name: _d4
-          path: "/new/*"
+          path: "./new/*"
 
 
   d5:
@@ -506,13 +506,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d5
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -582,7 +582,7 @@ jobs:
         if: always()
         with:
           name: _d5
-          path: "/new/*"
+          path: "./new/*"
 
 
   d6:
@@ -594,13 +594,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d6
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -670,7 +670,7 @@ jobs:
         if: always()
         with:
           name: _d6
-          path: "/new/*"
+          path: "./new/*"
 
 
   d7:
@@ -682,13 +682,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d7
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -758,7 +758,7 @@ jobs:
         if: always()
         with:
           name: _d7
-          path: "/new/*"
+          path: "./new/*"
 
 
   d8:
@@ -770,13 +770,13 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: sudo mkdir /new/
+      - run: sudo mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: d8
-          path: /new/
+          path: ./new/
 
       - name: Compress
         run : |
@@ -846,7 +846,7 @@ jobs:
         if: always()
         with:
           name: _d8
-          path: "/new/*"
+          path: "./new/*"
 
 
   combine:
@@ -855,64 +855,73 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
 
-      - run: sudo mkdir /new/
+      - run: |
+          mkdir ./new/
+          sudo mkdir /new/
         
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d1
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d2
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d3
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d4
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d5
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d6
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d7
-          path: /new/
+          path: ./new/
 
+      - run: sudo mv ./new/* /new/
 
       - name : Download
         uses: actions/download-artifact@v2
         with:
           name: _d8
-          path: /new/
+          path: ./new/
 
-
+      - run: sudo mv ./new/* /new/
 
       - name: Combine
         run : |
@@ -922,16 +931,10 @@ jobs:
           IFS=$(echo -en "\n\b") # New file separator
 
           arr=(`find -type f`)
-          dir=`pwd`
-
-          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-              arr[i]="'${dir}${arr[i]:1}/'"
-          done
-
 
           for i in "${arr[@]}" ; do
 
-              fullfilename=`echo ${i:1:-1}$j | sed 's/_-_/\//g'`
+              fullfilename=`echo ${i:2} | sed 's/_-_/\//g'` # ${i:2} -> Removes './' at the beginning
               dirname=`dirname $fullfilename`
 
               if [[ ! -d "$dirname" ]]; then
@@ -942,9 +945,6 @@ jobs:
 
           done
           IFS=$SAVEIFS
-          
-
-
 
       - run: ls -lRh /new/
         continue-on-error: true
