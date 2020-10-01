@@ -48,7 +48,6 @@ jobs:
           IFS=$(echo -en "\n\b") # New file separator
           arr=(`find -type d`)
           dir=`pwd`
-          IFS=$SAVEIFS
 
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
@@ -84,6 +83,7 @@ jobs:
                   sudo mv "${files[0]}" "$i"
               done
           done
+          IFS=$SAVEIFS
 
       - run: ls -lRh /new/
         continue-on-error: true
@@ -898,7 +898,6 @@ jobs:
 
           arr=(`find -type d`)
           dir=`pwd`
-          IFS=$SAVEIFS
 
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
@@ -917,6 +916,7 @@ jobs:
               sudo mv "$i"  "$fullfilename"
 
           done
+          IFS=$SAVEIFS
 
 
 
