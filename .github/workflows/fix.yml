@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
+          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461903/zip"
           sudo unzip artifact.zip
           sudo rm artifact.zip
           ls -lh
@@ -921,9 +921,8 @@ jobs:
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
 
-          arr=(`find -type d`)
+          arr=(`find -type f`)
           dir=`pwd`
-          IFS=$SAVEIFS
 
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
@@ -942,6 +941,7 @@ jobs:
               sudo mv "$i"  "$fullfilename"
 
           done
+          IFS=$SAVEIFS
           
 
 
