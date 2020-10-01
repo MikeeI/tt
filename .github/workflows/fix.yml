@@ -7,7 +7,9 @@ on:
 jobs:
   prepare:
 
-    runs-on: ubuntu-20.04
+      runs-on: ubuntu-20.04
+
+      steps:
 
     # - name : Install aria2
     #   run: sudo apt install aria2
@@ -20,903 +22,911 @@ jobs:
     #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
 
-    - name: Download Artifact
-      run: |
-        sudo mkdir -p /new/sans
-        cd /new/sans
-        sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
-        sudo unzip artifact.zip
-        sudo rm artifact.zip
-        ls -lh
-        echo "__________________________________________________________"
-        
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
-        secondDir=(`ls`)
-        secondDir="${secondDir[1]}"
-        sudo rm -r "$secondDir"
-        
-        IFS=$SAVEIFS
-        
-        ls -lh
+      - name: Download Artifact
+        run: |
+          sudo mkdir -p /new/sans
+          cd /new/sans
+          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461897/zip"
+          sudo unzip artifact.zip
+          sudo rm artifact.zip
+          ls -lh
+          echo "__________________________________________________________"
+          
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
+          secondDir=(`ls`)
+          secondDir="${secondDir[1]}"
+          sudo rm -r "$secondDir"
+          
+          IFS=$SAVEIFS
+          
+          ls -lh
 
+      - name: Group Files
+        run: |
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-    - name: Group Files
-      run: |
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
+          for i in "${arr[@]}" ; do
+              eval "cd $i"
+              mp4FilesCount=`ls -1 *.* 2>/dev/null | wc -l`
+              if [[ $mp4FilesCount != 0 ]]; then
+                  for j in *.* ; do
+                      new_name=`echo ${i:1:-1}$j | sed 's/\//-_-/g'`
+                      sudo mv "$j" "$new_name"
+                  done
+              fi
+          done
 
-        for i in "${arr[@]}" ; do
-            eval "cd $i"
-            mp4FilesCount=`ls -1 *.* 2>/dev/null | wc -l`
-            if [[ $mp4FilesCount != 0 ]]; then
-                for j in *.* ; do
-                    new_name=`echo ${i:1:-1}$j | sed 's/\//-_-/g'`
-                    sudo mv "$j" "$new_name"
-                done
-            fi
-        done
+          cd /new/
+          find . -type d -exec sudo mv {} .
+          sudo rm -r ./sans/
 
-        cd /new/
-        find . -type d -exec sudo mv {} .
-        sudo rm -r ./sans/
+          sudo mkdir d1 d2 d3 d4 d5 d6 d7 d8
 
-        sudo mkdir d1 d2 d3 d4 d5 d6 d7 d8
+          dirs=("d1" "d2" "d3" "d4" "d5" "d6" "d7" "d8")
 
-        dirs=("d1" "d2" "d3" "d4" "d5" "d6" "d7" "d8")
+          flag=1
+          while [[ "$flag" == 1 ]] ; do
+              for i in "${dirs[@]}" ; do
+                  files=(`find . -maxdepth 1 -type f`)
+                  if [[ "${#files[@]}" == 0 ]] ; then
+                      flag=0
+                      break
+                  fi
+                  sudo mv "${files[0]}" "$i"
+              done
+          done
 
-        flag=1
-        while [[ "$flag" == 1 ]] ; do
-            for i in "${dirs[@]}" ; do
-                files=(`find . -maxdepth 1 -type f`)
-                if [[ "${#files[@]}" == 0 ]] ; then
-                    flag=0
-                    break
-                fi
-                sudo mv "${files[0]}" "$i"
-            done
-        done
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d1
+          path: "/new/d1/*"
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d1
-        path: "/new/d1/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d2
+          path: "/new/d2/*"
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d2
-        path: "/new/d2/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d3
+          path: "/new/d3/*"
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d3
-        path: "/new/d3/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d4
+          path: "/new/d4/*"
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d4
-        path: "/new/d4/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d5
+          path: "/new/d5/*"
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d5
-        path: "/new/d5/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d6
+          path: "/new/d6/*"
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d6
-        path: "/new/d6/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d7
+          path: "/new/d7/*"
 
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d7
-        path: "/new/d7/*"
-
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: d8
-        path: "/new/d8/*"
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: d8
+          path: "/new/d8/*"
 
 
   d1:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d1
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d1
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d1
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d1
+          path: "/new/*"
 
 
   d2:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d2
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d2
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d2
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d2
+          path: "/new/*"
 
 
   d3:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d3
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d3
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d3
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d3
+          path: "/new/*"
 
 
   d4:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d4
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d4
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d4
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d4
+          path: "/new/*"
 
 
   d5:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d5
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d5
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d5
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d5
+          path: "/new/*"
 
 
   d6:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d6
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d6
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d6
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d6
+          path: "/new/*"
 
 
   d7:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d7
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d7
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d7
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d7
+          path: "/new/*"
 
 
   d8:
 
     needs: [prepare]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Install ffmpeg
-      run: sudo apt install ffmpeg
+      - name : Install ffmpeg
+        run: sudo apt install ffmpeg
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: d8
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: d8
+          path: /new/
 
-    - name: Compress
-      run : |
-        cd /new
+      - name: Compress
+        run : |
+          cd /new
 
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
 
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
 
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            eval "cd $i"
-            echo "Current Folder is $i"
-
-            mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
-
-            if [[ $mp4FilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-
-                for j in *.mp4 ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
-                    sudo rm "$j"
-                    sudo mv "./new/$j" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-
-            fi
-
-            webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
-            if [[ $webmFilesCount != 0 ]]; then
-                if [[ ! -d "new" ]]; then
-                    sudo mkdir "new"
-                fi
-                
-                for j in *.webm ; do
-                    sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
-                    sudo rm "$j"
-                    sudo mv "./new/$j.mp4" .
-                    echo "________________________________________________________________"
-                done
-
-                sudo rmdir "./new"
-            fi
-                
-
-        done
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: _d8
-        path: "/new/*"
+          for i in "${arr[@]}" ; do
+
+              eval "cd $i"
+              echo "Current Folder is $i"
+
+              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+
+              if [[ $mp4FilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+
+                  for j in *.mp4 ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
+                      sudo rm "$j"
+                      sudo mv "./new/$j" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+
+              fi
+
+              webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
+
+              if [[ $webmFilesCount != 0 ]]; then
+                  if [[ ! -d "new" ]]; then
+                      sudo mkdir "new"
+                  fi
+                  
+                  for j in *.webm ; do
+                      sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j.mp4"
+                      sudo rm "$j"
+                      sudo mv "./new/$j.mp4" .
+                      echo "________________________________________________________________"
+                  done
+
+                  sudo rmdir "./new"
+              fi
+                  
+
+          done
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _d8
+          path: "/new/*"
 
 
   combine:
 
     needs: [d1 , d2 , d3 , d4 , d5 , d6 , d7 , d8]
     runs-on: ubuntu-20.04
+    steps:
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d1
-        path: /new/
-
-
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d2
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d1
+          path: /new/
 
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d3
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d2
+          path: /new/
 
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d4
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d3
+          path: /new/
 
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d5
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d4
+          path: /new/
 
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d6
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d5
+          path: /new/
 
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d7
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d6
+          path: /new/
 
 
-    - name : Download
-      uses: actions/download-artifact@v2
-      with:
-        name: _d8
-        path: /new/
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d7
+          path: /new/
 
 
-
-    - name: Combine
-      run : |
-        cd /new
-
-        SAVEIFS=$IFS # Save the File separator to restore it later
-        IFS=$(echo -en "\n\b") # New file separator
-
-        arr=(`find -type d`)
-        dir=`pwd`
-        IFS=$SAVEIFS
-
-        for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-            arr[i]="'${dir}${arr[i]:1}/'"
-        done
-
-
-        for i in "${arr[@]}" ; do
-
-            fullfilename=`echo ${i:1:-1}$j | sed 's/-_-/\//g'`
-            dirname=`dirname $fullfilename`
-
-            if [[ ! -d "$dirname" ]]; then
-                sudo mkdir -p "$dirname"
-            fi
-
-            sudo mv "$i"  "$fullfilename"
-
-        done
+      - name : Download
+        uses: actions/download-artifact@v2
+        with:
+          name: _d8
+          path: /new/
 
 
 
-    - run: ls -lRh /new/
-      continue-on-error: true
-      if: always()
-        
-    - uses: actions/upload-artifact@v2
-      if: always()
-      with:
-        name: all
-        path: "/new/*"
+      - name: Combine
+        run : |
+          cd /new
+
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
+
+          arr=(`find -type d`)
+          dir=`pwd`
+          IFS=$SAVEIFS
+
+          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
+              arr[i]="'${dir}${arr[i]:1}/'"
+          done
+
+
+          for i in "${arr[@]}" ; do
+
+              fullfilename=`echo ${i:1:-1}$j | sed 's/-_-/\//g'`
+              dirname=`dirname $fullfilename`
+
+              if [[ ! -d "$dirname" ]]; then
+                  sudo mkdir -p "$dirname"
+              fi
+
+              sudo mv "$i"  "$fullfilename"
+
+          done
+
+
+
+      - run: ls -lRh /new/
+        continue-on-error: true
+        if: always()
+          
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: all
+          path: "/new/*"
 
