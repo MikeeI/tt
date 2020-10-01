@@ -52,19 +52,22 @@ jobs:
           dir=`pwd`
 
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-              arr[i]="'${dir}${arr[i]:1}/'"
+              arr[i]="'${dir}${arr[i]:1}/'" # Convert Relative Paths into Absolute Paths, and add quote around path
           done
 
           for i in "${arr[@]}" ; do
               eval "cd $i"
-              mp4FilesCount=`ls -1 *.* 2>/dev/null | wc -l`
-              if [[ $mp4FilesCount != 0 ]]; then
-                  for j in *.* ; do
+              echo "DIR: " `pwd` 
+              files=(`find . -maxdepth 1 -type f`)
+              if [[ ${#files[@]} != 0 ]]; then
+                  for j in "${#files[@]}" ; do
                       new_name=`echo ${i:1:-1}$j | sed 's/\//_-_/g'`
                       sudo mv "$j" "$new_name"
                   done
               fi
           done
+
+          echo "__________________________________________________________________"
 
           cd /new/
           sudo find . -type f -exec mv {} . \;
@@ -178,9 +181,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -266,9 +269,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -354,9 +357,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -442,9 +445,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -530,9 +533,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -618,9 +621,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -706,9 +709,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
@@ -794,9 +797,9 @@ jobs:
               eval "cd $i"
               echo "Current Folder is $i"
 
-              mp4FilesCount=`ls -1 *.mp4 2>/dev/null | wc -l`
+              count=`ls -1 *.mp4 2>/dev/null | wc -l`
 
-              if [[ $mp4FilesCount != 0 ]]; then
+              if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
