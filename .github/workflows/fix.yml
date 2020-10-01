@@ -66,7 +66,7 @@ jobs:
           done
 
           cd /new/
-          find . -type d -exec sudo mv {} .
+          sudo find . -type f -exec mv {} . \;
           sudo rm -r ./sans/
 
           sudo mkdir d1 d2 d3 d4 d5 d6 d7 d8
