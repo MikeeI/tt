@@ -60,12 +60,10 @@ jobs:
           
           for i in "${arr[@]}" ; do
               eval "cd $i"
-              echo "DIR: " `pwd` 
               files=(`find . -maxdepth 1 -type f`)
               if [[ ${#files[@]} != 0 ]]; then
-                  for j in "${#files[@]}" ; do
+                  for j in "${files[@]}" ; do
                       new_name=`echo ${i:1:-1}${j:2} | sed 's/\//_-_/g'`
-                      echo "NEW_NAME: " "$new_name"
                       sudo mv "$j" "$new_name"
                   done
               fi
