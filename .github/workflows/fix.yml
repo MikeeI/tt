@@ -63,7 +63,6 @@ jobs:
               if [[ ${#files[@]} != 0 ]]; then
                   for j in "${files[@]}" ; do
                       new_name=`echo ${i:1:-1}${j:2} | sed 's/\//_-_/g'`
-                      j='$j'
                       sudo mv "$j" "$new_name"
                   done
               fi
