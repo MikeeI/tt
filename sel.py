@@ -20,6 +20,6 @@ download_link = download.get_attribute("href")
 
 print("Download Link: ", download_link)
 
-os.system("axel -n 16 " + "\'" + download_link + "\'" )
+os.system("wget " + "\'" + download_link + "\'" )
 
 driver.quit()
