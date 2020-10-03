@@ -18,7 +18,7 @@ jobs:
         sudo apt-get install unrar
         
     - name: Install Selenium
-      run: pip install selenium
+      run: pip3 install selenium
       
     - name : Download
       run: |
