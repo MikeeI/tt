@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461905/zip"
+          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461906/zip"
           sudo unzip artifact.zip
           sudo rm artifact.zip
           ls -lh
