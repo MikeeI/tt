@@ -11,35 +11,26 @@ jobs:
 
       steps:
 
-    # - name : Install aria2
-    #   run: sudo apt install aria2
+      - uses: actions/checkout@v2
 
-    # - name : Download
-    #   run: |
-    #     sudo mkdir /new
-    #     sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-    #     cd /new
-    #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+      - name : Install aria2
+        run: sudo apt install aria2
 
-
-      - name: Download Artifact
+      - name : Download
         run: |
           sudo mkdir -p /new/sans
+          sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/sans
           cd /new/sans
-          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461904/zip"
-          sudo unzip artifact.zip
-          sudo rm artifact.zip
+          sudo aria2c --seed-time=0 --select-file=6182-6888 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
           ls -lh
           echo "__________________________________________________________"
-          
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
           secondDir=(`ls`)
           secondDir="${secondDir[1]}"
           sudo rm -r "$secondDir"
-          
           IFS=$SAVEIFS
-          
+          rm '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
           ls -lh
 
       - name: Group Files
