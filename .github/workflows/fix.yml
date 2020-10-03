@@ -11,20 +11,14 @@ jobs:
 
       steps:
 
-      - run: |
-          wget https://github.com/omar-havef/tt/raw/torrent/%5BSANS%5D%20security%20SEC%2C%20%5B2011-2020%2C%20ENG%5D%20%5Brutracker-5933310%5D.torrent
-          ls -lh
-
       - name : Install aria2
         run: sudo apt install aria2
 
       - name : Download
         run: |
-          sudo mkdir -p /new/
-          sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
-          cd /new/
-          sudo aria2c --seed-time=0 --select-file=6182-6888 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
-          cd ./sans
+          sudo mkdir -p /new/sans
+          cd /new/sans
+          sudo aria2c --seed-time=0 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
           ls -lh
           echo "__________________________________________________________"
           SAVEIFS=$IFS # Save the File separator to restore it later
