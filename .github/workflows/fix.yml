@@ -12,10 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name : Install Unrar
+    - name : Install Unrar and7zip
       run: |
         sudo apt-get update
         sudo apt-get install unrar
+        sudo apt-get install p7zip-full p7zip-rar
         
     - name: Install Selenium
       run: |
@@ -32,19 +33,23 @@ jobs:
         
     - name : Extract
       continue-on-error: true
-      run: unrar x WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.rar -p"strelec"
+      run: |
+        unrar x WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.rar -p"strelec"
+        echo "ISO Sum"
+        md5sum WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.iso
+        cat WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.iso.md5
+        echo "_______________________________________________________"
+        mkdir iso
+        cd iso
+        7z x ../WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.iso
         
-    - name : Extract
-      continue-on-error: true
-      if: failure()
-      run: unrar x WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.rar -p "strelec"
-      
+        
     - continue-on-error: true
       if: always()
       run : ls -lRh
       
-#     - uses: actions/upload-artifact@v2
-#       if: always()
-#       with:
-#         name: videos
-#         path: ./*.mp4
+    - uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: Sergei_Strelec
+        path: WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.iso
