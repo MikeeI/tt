@@ -11,7 +11,9 @@ jobs:
 
       steps:
 
-      - uses: actions/checkout@v2
+      - run: |
+          wget https://github.com/omar-havef/tt/raw/torrent/%5BSANS%5D%20security%20SEC%2C%20%5B2011-2020%2C%20ENG%5D%20%5Brutracker-5933310%5D.torrent
+          ls -lh
 
       - name : Install aria2
         run: sudo apt install aria2
