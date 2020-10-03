@@ -7,7 +7,7 @@ on:
 jobs:
   download:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
@@ -18,11 +18,15 @@ jobs:
         sudo apt-get install unrar
         
     - name: Install Selenium
-      run: pip3 install selenium
+      run: |
+        pip install selenium
+        pip3 install selenium
+        sudo pip install selenium
+        sudo pip3 install selenium
       
     - name : Download
       run: |
-        python selenium.py
+        python3 selenium.py
         sha1sum WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.rar
         echo "______________________________________________________"
         
