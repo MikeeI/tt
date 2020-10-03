@@ -3,8 +3,6 @@ from time import sleep
 import os
 from sys import argv
 
-url = argv[1]
-
 options = webdriver.ChromeOptions()
 
 options.add_argument("--no-sandbox")
