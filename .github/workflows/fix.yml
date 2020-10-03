@@ -26,7 +26,7 @@ jobs:
       
     - name : Download
       run: |
-        python3 selenium.py
+        python3 sel.py
         sha1sum WinPE10_8_Sergei_Strelec_x86_x64_2020.09.21_English.rar
         echo "______________________________________________________"
         
