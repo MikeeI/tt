@@ -20,10 +20,11 @@ jobs:
 
       - name : Download
         run: |
-          sudo mkdir -p /new/sans
-          sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/sans
-          cd /new/sans
+          sudo mkdir -p /new/
+          sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+          cd /new/
           sudo aria2c --seed-time=0 --select-file=6182-6888 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+          cd ./sans
           ls -lh
           echo "__________________________________________________________"
           SAVEIFS=$IFS # Save the File separator to restore it later
@@ -32,7 +33,6 @@ jobs:
           secondDir="${secondDir[1]}"
           sudo rm -r "$secondDir"
           IFS=$SAVEIFS
-          rm '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
           ls -lh
 
       - name: Group Files
