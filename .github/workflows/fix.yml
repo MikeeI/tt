@@ -12,11 +12,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name : Install Unrar and7zip
+    - name : Install Unrar and 7zip and axel
       run: |
         sudo apt-get update
         sudo apt-get install unrar
         sudo apt-get install p7zip-full p7zip-rar
+        sudo apt-get install axel
         
     - name: Install Selenium
       run: |
