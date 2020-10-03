@@ -11,16 +11,36 @@ jobs:
 
       steps:
 
-      - name : Install aria2
-        run: sudo apt install aria2
+    # - name : Install aria2
+    #   run: sudo apt install aria2
 
-      - name : Download
+    # - name : Download
+    #   run: |
+    #     sudo mkdir /new
+    #     sudo cp '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent' /new/
+    #     cd /new
+    #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
+
+
+      - name: Download Artifact
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo aria2c --seed-time=0 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
+          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/253361802/zip"
+          sudo unzip artifact.zip
+          sudo rm artifact.zip
           ls -lh
-
+          echo "__________________________________________________________"
+          
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
+          secondDir=(`ls`)
+          secondDir="${secondDir[1]}"
+          sudo rm -r "$secondDir"
+          
+          IFS=$SAVEIFS
+          
+          ls -lh
       - name: Group Files
         run: |
           cd /new/sans/
@@ -29,11 +49,9 @@ jobs:
           IFS=$(echo -en "\n\b") # New file separator
           arr=(`find -type d`)
           dir=`pwd`
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'" # Convert Relative Paths into Absolute Paths, and add quote around path
           done
-
           set -x
           
           for i in "${arr[@]}" ; do
@@ -46,17 +64,12 @@ jobs:
                   done
               fi
           done
-
           echo "__________________________________________________________________"
-
           cd /new/
           sudo find . -type f -exec mv {} . \;
           sudo rm -r ./sans/
-
           sudo mkdir d1 d2 d3 d4 d5 d6 d7 d8
-
           dirs=("d1" "d2" "d3" "d4" "d5" "d6" "d7" "d8")
-
           flag=1
           while [[ "$flag" == 1 ]] ; do
               for i in "${dirs[@]}" ; do
@@ -69,7 +82,6 @@ jobs:
               done
           done
           IFS=$SAVEIFS
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -143,44 +155,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -192,14 +191,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -231,44 +226,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -280,14 +262,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -319,44 +297,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -368,14 +333,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -407,44 +368,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -456,14 +404,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -495,44 +439,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -544,14 +475,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -583,44 +510,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -632,14 +546,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -671,44 +581,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -720,14 +617,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -759,44 +652,31 @@ jobs:
       - name: Compress
         run : |
           cd ./new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type d`)
           dir=`pwd`
           IFS=$SAVEIFS
-
           for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
               arr[i]="'${dir}${arr[i]:1}/'"
           done
-
-
           for i in "${arr[@]}" ; do
-
               eval "cd $i"
               echo "Current Folder is $i"
-
               count=`ls -1 *.mp4 2>/dev/null | wc -l`
-
               if [[ $count != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
                   fi
-
                   for j in *.mp4 ; do
                       sudo ffmpeg -i "$j" -c:v libx265 -crf 28 -c:a copy "./new/$j"
                       sudo rm "$j"
                       sudo mv "./new/$j" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
-
               fi
-
               webmFilesCount=`ls -1 *.webm 2>/dev/null | wc -l`
-
               if [[ $webmFilesCount != 0 ]]; then
                   if [[ ! -d "new" ]]; then
                       sudo mkdir "new"
@@ -808,14 +688,10 @@ jobs:
                       sudo mv "./new/$j.mp4" .
                       echo "________________________________________________________________"
                   done
-
                   sudo rmdir "./new"
               fi
                   
-
           done
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -904,26 +780,19 @@ jobs:
       - name: Combine
         run : |
           cd /new
-
           SAVEIFS=$IFS # Save the File separator to restore it later
           IFS=$(echo -en "\n\b") # New file separator
-
           arr=(`find -type f`)
-
           for i in "${arr[@]}" ; do
-
+              i=`echo $i | sed 's/.webm.mp4/.mp4/g'`
               fullfilename=`echo ${i:2} | sed 's/_-_/\//g'` # ${i:2} -> Removes './' at the beginning
               dirname=`dirname $fullfilename`
-
               if [[ ! -d "$dirname" ]]; then
                   sudo mkdir -p "$dirname"
               fi
-
               sudo mv "$i"  "$fullfilename"
-
           done
           IFS=$SAVEIFS
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -931,6 +800,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: all
+          name: _all
           path: "/new/*"
-
