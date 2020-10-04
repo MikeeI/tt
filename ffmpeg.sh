@@ -15,7 +15,7 @@ for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
     arr[i]="'${dir}${arr[i]:1}/'"
 done
 
-videoFormats=("mp4" "webm" "mkv" "mov" "ogv")
+videoFormats=("mp4" "webm" "mkv" "mov" "ogv" "wmv" "flv" "avi")
 
 for dir in "${arr[@]}" ; do
     eval "cd $dir"
@@ -32,7 +32,7 @@ for dir in "${arr[@]}" ; do
 
             for file in *.$format ; do
                 nameWithoutExtension=`echo $file | sed "s/.$format//g"`
-                sudo ffmpeg -i "$file" -c:v libx265 -crf 28 -c:a copy "./new/$nameWithoutExtension.mp4"
+                sudo ffmpeg -hide_banner -max_muxing_queue_size 99999 -i "$file" -c:v libx265 -crf 28 -c:a copy "./new/$nameWithoutExtension.mp4"
                 sudo rm "$file"
                 sudo mv "./new/$nameWithoutExtension.mp4" .
                 echo "________________________________________________________________"
