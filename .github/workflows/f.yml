@@ -26,9 +26,10 @@ jobs:
         
     - run: |
           unzip artifact.zip
-          rm artifact.zip
-          sudo tar cvf archive.tar.xz --use-compress-program='xz -9T0' .
+          sudo tar cvf archive.tar.xz --use-compress-program='xz -9T0' ./sans/
           ls -lh
+          echo "_________________________________________"
+          ls -l
           
         
 #     - uses: actions/upload-artifact@v2
