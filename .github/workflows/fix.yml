@@ -21,32 +21,25 @@ jobs:
     #     cd /new
     #     sudo aria2c --seed-time=0 --select-file=1569-2788 '[SANS] security SEC, [2011-2020, ENG] [rutracker-5933310].torrent'
 
-
-      - name : Download
+      - name: Download Artifact
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo aria2c --seed-time=0 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
+          sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461899/zip"
+          sudo unzip artifact.zip
+          sudo rm artifact.zip
           ls -lh
-#       - name: Download Artifact
-#         run: |
-#           sudo mkdir -p /new/sans
-#           cd /new/sans
-#           sudo curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/17461908/zip"
-#           sudo unzip artifact.zip
-#           sudo rm artifact.zip
-#           ls -lh
-#           echo "__________________________________________________________"
+          echo "__________________________________________________________"
           
-#           SAVEIFS=$IFS # Save the File separator to restore it later
-#           IFS=$(echo -en "\n\b") # New file separator
-#           secondDir=(`ls`)
-#           secondDir="${secondDir[1]}"
-#           sudo rm -r "$secondDir"
+          SAVEIFS=$IFS # Save the File separator to restore it later
+          IFS=$(echo -en "\n\b") # New file separator
+          secondDir=(`ls`)
+          secondDir="${secondDir[1]}"
+          sudo rm -r "$secondDir"
           
-#           IFS=$SAVEIFS
+          IFS=$SAVEIFS
           
-#           ls -lh
+          ls -lh
 
 
       - name: Group Files
@@ -378,7 +371,7 @@ jobs:
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
           
-      - run: ls -lRh /new/
+      - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
           
