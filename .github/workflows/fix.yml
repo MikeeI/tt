@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo aria2c --seed-time=0 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
+          sudo aria2c --seed-time=0 --select-file=1-9 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
           ls -lh
 
 #       - name: Download Artifact
@@ -166,8 +166,8 @@ jobs:
 
       - name: Compress
         run : |
-          chmod +x ./ffmpeg.sh
-          ./ffmpeg.sh
+          sudo chmod 777 ./ffmpeg.sh
+          sudo ./ffmpeg.sh
 
       - run: ls -lRh ./new/
         continue-on-error: true
@@ -201,8 +201,9 @@ jobs:
 
       - name: Compress
         run : |
-          chmod +x ./ffmpeg.sh
-          ./ffmpeg.sh
+          sudo chmod 777 ./ffmpeg.sh
+          set -x
+          sudo ./ffmpeg.sh
 
       - run: ls -lRh ./new/
         continue-on-error: true
