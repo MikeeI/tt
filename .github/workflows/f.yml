@@ -25,8 +25,7 @@ jobs:
 #         ls -lh
         
     - run: |
-          unzip artifact.zip
-          sudo tar cvf archive.tar.xz --use-compress-program='xz -9T0' ./sans/
+          sudo tar cvf archive.tar.xz --use-compress-program='xz -9T0' ./artifact.zip
           ls -lh
           echo "_________________________________________"
           ls -l
