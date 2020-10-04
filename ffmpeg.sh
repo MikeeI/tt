@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+cd ./new
 
 SAVEIFS=$IFS # Save the File separator to restore it later
 IFS=$(echo -en "\n\b") # New file separator
