@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo `pwd`
+echo `ls -lh`
+
 eval "cd ./new"
 
 SAVEIFS=$IFS # Save the File separator to restore it later
