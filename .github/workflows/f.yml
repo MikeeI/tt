@@ -15,26 +15,15 @@ jobs:
         curl -v -L -u octocat:${{ secrets.GITHUB_TOKEN }} -o  artifact.zip "https://api.github.com/repos/omar-havef/tt/actions/artifacts/20005952/zip"
         ls -la
         
-#     - name : Fix
-#       run: |
-#         split -b 305815544 -d -a 3 artifact.zip cut_part
-#         rm cut_part000
-#         ls -la
-#         cat cut_part* > cut_all4
-#         xz -v9 cut_all4
-#         ls -lh
+    - name : Fix
+      run: |
+        split -b 305815544 -d -a 3 artifact.zip cut_part
+        rm cut_part000
+        cat cut_part* > cut_all
+        ls -lh
+        ls -l
         
-    - run: |
-          sudo tar cvf archive.tar.xz --use-compress-program='xz -9T0' ./artifact.zip
-          ls -lh
-          echo "_________________________________________"
-          ls -l
-          
+    - uses: actions/upload-artifact@v2
+      with:
+        path: cut_all
         
-#     - uses: actions/upload-artifact@v2
-#       with:
-#         path: cut_all4
-        
-#     - uses: actions/upload-artifact@v2
-#       with:
-#         path: cut_all4.xz
