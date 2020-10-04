@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo aria2c --seed-time=0 --select-file=1,2,3 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
+          sudo aria2c --seed-time=0 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
           ls -lh
 #       - name: Download Artifact
 #         run: |
@@ -154,9 +154,7 @@ jobs:
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: |
-          mkdir ./new/
-          ls -lh
+      - run: mkdir ./new/
         
       - name : Download
         uses: actions/download-artifact@v2
@@ -185,7 +183,9 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
-
+      
+      - uses: actions/checkout@v2
+        
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
@@ -197,12 +197,11 @@ jobs:
           name: d2
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -219,6 +218,8 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
+      
+      - uses: actions/checkout@v2
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
@@ -231,12 +232,11 @@ jobs:
           name: d3
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -253,7 +253,9 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
-
+      
+      - uses: actions/checkout@v2
+        
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
@@ -265,12 +267,11 @@ jobs:
           name: d4
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -287,6 +288,8 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
+      
+      - uses: actions/checkout@v2
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
@@ -299,12 +302,11 @@ jobs:
           name: d5
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -321,7 +323,9 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
-
+      
+      - uses: actions/checkout@v2
+        
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
@@ -333,12 +337,11 @@ jobs:
           name: d6
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -355,6 +358,8 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
+      
+      - uses: actions/checkout@v2
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
@@ -368,12 +373,11 @@ jobs:
           name: d7
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -390,6 +394,8 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
+      
+      - uses: actions/checkout@v2
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
@@ -403,12 +409,11 @@ jobs:
           name: d8
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
