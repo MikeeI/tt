@@ -26,9 +26,8 @@ jobs:
         run: |
           sudo mkdir -p /new/sans
           cd /new/sans
-          sudo aria2c --seed-time=0 --select-file=1-9 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
+          sudo aria2c --seed-time=0 'magnet:?xt=urn:btih:2e620dbe0e6edeba6bfcd8adb890cb17f5f594ac&dn=SEC575%20Mobile%20Device%20Security%20and%20Ethical%20Hacking%202017&tr=http%3A%2F%2Fbt2.t-ru.org%2Fann&tr=http%3A%2F%2Fretracker.local%2Fannounce'
           ls -lh
-
 #       - name: Download Artifact
 #         run: |
 #           sudo mkdir -p /new/sans
@@ -91,7 +90,6 @@ jobs:
               done
           done
           IFS=$SAVEIFS
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -150,11 +148,15 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-20.04
     steps:
+      
+      - uses: actions/checkout@v2
 
       - name : Install ffmpeg
         run: sudo apt install ffmpeg
         
-      - run: mkdir ./new/
+      - run: |
+          mkdir ./new/
+          ls -lh
         
       - name : Download
         uses: actions/download-artifact@v2
@@ -162,50 +164,11 @@ jobs:
           name: d1
           path: ./new/
 
-      - uses: actions/checkout@v2
-
       - name: Compress
         run : |
-          SAVEIFS=$IFS # Save the File separator to restore it later
-          IFS=$(echo -en "\n\b") # New file separator
-          arr=(`find -type d`)
-          dir=`pwd`
-          IFS=$SAVEIFS
-
-          for ((i = 0 ; i < "${#arr[@]}" ; i++)) ; do
-              arr[i]="'${dir}${arr[i]:1}/'"
-          done
-
-          videoFormats=("mp4" "webm" "mkv" "mov" "ogv")
-
-          for dir in "${arr[@]}" ; do
-              eval "cd $dir"
-              echo "Current Folder is $dir"
-
-              if [[ ! -d "new" ]]; then
-                  sudo mkdir "new"
-              fi
-
-              for format in "${videoFormats[@]}" ; do
-                  count=`ls -1 *.$format 2>/dev/null | wc -l`
-
-                  if [[ $count != 0 ]]; then
-
-                      for file in *.$format ; do
-                          nameWithoutExtension=`echo $file | sed "s/.$format//g"`
-                          sudo ffmpeg -i "$file" -c:v libx265 -crf 28 -c:a copy "./new/$nameWithoutExtension.mp4"
-                          sudo rm "$file"
-                          sudo mv "./new/$nameWithoutExtension.mp4" .
-                          echo "________________________________________________________________"
-                      done
-
-                  fi
-              done
-
-              sudo rmdir "./new"
-
-          done
-
+          chmod +x ./ffmpeg.sh
+          ./ffmpeg.sh
+          
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -238,10 +201,8 @@ jobs:
 
       - name: Compress
         run : |
-          sudo chmod 777 ./ffmpeg.sh
-          set -x
-          sudo ./ffmpeg.sh
-
+          chmod +x ./ffmpeg.sh
+          ./ffmpeg.sh
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -276,7 +237,6 @@ jobs:
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
-
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -311,7 +271,6 @@ jobs:
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
-
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -346,7 +305,6 @@ jobs:
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
-
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -381,7 +339,6 @@ jobs:
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
-
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -417,7 +374,6 @@ jobs:
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
@@ -453,7 +409,6 @@ jobs:
         run : |
           chmod +x ./ffmpeg.sh
           ./ffmpeg.sh
-
       - run: ls -lRh ./new/
         continue-on-error: true
         if: always()
@@ -556,8 +511,6 @@ jobs:
               sudo mv "$i"  "$fullfilename"
           done
           IFS=$SAVEIFS
-
-
       - run: ls -lRh /new/
         continue-on-error: true
         if: always()
