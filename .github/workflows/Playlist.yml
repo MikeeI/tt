@@ -29,7 +29,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl --get-id "http://youtube.com/playlist?list=PLJtitKU0CAehsqCh24iG5ZbZvCa4YQkvf" | xargs -I '{}' -P 5 youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://youtube.com/watch?v={}'
+          youtube-dl --get-id "http://youtube.com/playlist?list=PLJtitKU0CAehsqCh24iG5ZbZvCa4YQkvf" | xargs -I '{}' -P 8 youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://youtube.com/watch?v={}'
 
       - run : |
           mkdir new
