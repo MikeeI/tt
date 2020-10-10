@@ -29,7 +29,7 @@ jobs:
 
       - name : Download
         run : |
-          youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' 
+          youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'http://youtube.com/playlist?list=PLJtitKU0CAehsqCh24iG5ZbZvCa4YQkvf' 
 
       - run : |
           mkdir new
