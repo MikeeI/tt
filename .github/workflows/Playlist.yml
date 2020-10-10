@@ -34,7 +34,7 @@ jobs:
       - run : |
           mkdir new
           for i in *.mp4 ; do
-              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              ffmpeg -i "$i" -c:v libx264 -crf 23 "./new/$i"
               echo "______________________________________________________________________________________________"
               ls -lh ./new
           done
