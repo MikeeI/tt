@@ -34,7 +34,7 @@ jobs:
       - run : |
           mkdir new
           for i in *.mp4 ; do
-              ffmpeg -i "$i" -c:v libx264 -preset superfast "./new/$i"
+              ffmpeg -i "$i" -vf scale=480:320 -c:v libx264 -preset superfast "./new/$i"
               echo "______________________________________________________________________________________________"
               ls -lh ./new
           done
