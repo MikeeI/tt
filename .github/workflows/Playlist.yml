@@ -1,0 +1,46 @@
+name: avidemux
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  prepare:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+                
+  part_1:
+    runs-on: ubuntu-20.04
+    needs: [prepare]
+    steps:
+
+      - name : Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+        
+      - name : Install Youtube-DL
+        run: |
+          sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+          sudo chmod a+rx /usr/local/bin/youtube-dl
+
+      - name : Download
+        run : |
+          youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' 'https://www.youtube.com/playlist?list=PLy1Fx2HfcmWBpD_PI4AQpjeDK5-5q6TG7' 
+
+      - run : |
+          mkdir new
+          for i in *.mp4 ; do
+              ffmpeg -i "$i" -vcodec libx265 -crf 28 "./new/$i"
+              echo "______________________________________________________________________________________________"
+              ls -lh ./new
+          done
+      
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: _videos1
+          path: ./new/*.mp4
