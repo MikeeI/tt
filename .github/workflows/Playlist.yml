@@ -2,7 +2,7 @@ name: avidemux
 
 on:
   push:
-    branches: [masterjkkkl]
+    branches: [master]
 
 jobs:
   prepare:
